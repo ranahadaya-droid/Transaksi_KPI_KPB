@@ -118,7 +118,14 @@ button{
 
 <h2>Detail Pengajuan</h2>
 
-<div id="detailContainer"></div>
+<div id="detailContainer">
+
+    <div id="kosong">
+        Belum ada item pengajuan.<br>
+        Klik tombol + Tambah Item
+    </div>
+
+</div>
 
 <button
 type="button"
@@ -150,6 +157,13 @@ let counter = 0;
 function tambahItem(){
 
     counter++;
+
+    const kosong =
+    document.getElementById("kosong");
+
+    if(kosong){
+    kosong.remove();
+    }
 
     let container =
     document.getElementById(
@@ -244,11 +258,6 @@ function hitungTotal(){
 
 }
 
-window.onload = function(){
-
-    tambahItem();
-
-}
 
 </script>
 
