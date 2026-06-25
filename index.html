@@ -73,6 +73,16 @@ button{
     color:#1976d2;
 }
 
+    .vendor-list{
+
+    border:1px solid #ddd;
+    background:white;
+
+    max-height:150px;
+
+    overflow-y:auto;
+
+}
 </style>
 
 </head>
@@ -265,7 +275,14 @@ function tambahItem(){
     <input type="date" class="tanggal_nota">
 
     <label>Vendor</label>
-    <input type="text" class="vendor">
+
+    <input
+    type="text"
+    class="vendor"
+    onkeyup="cariVendor(this)"
+    placeholder="Ketik nama vendor">
+
+    <div class="vendor-list"></div>
 
     <label>Nama Barang</label>
     <input type="text" class="nama_barang">
@@ -337,6 +354,67 @@ function hitungTotal(){
         "grandTotal"
     ).innerText =
     total.toLocaleString("id-ID");
+
+}
+
+    function cariVendor(input){
+
+    const keyword =
+    input.value
+    .toLowerCase();
+
+    const list =
+    input.nextElementSibling;
+
+    list.innerHTML = "";
+
+    if(keyword.length < 2){
+
+        return;
+
+    }
+
+    const dummyVendor = [
+
+        "Pertamina Patra Niaga",
+        "Pertamina Patra Logistik",
+        "Pertamina Training Consulting",
+        "Bareh Solok",
+        "Indomaret",
+        "Alfamart"
+
+    ];
+
+    const hasil =
+    dummyVendor.filter(vendor =>
+        vendor
+        .toLowerCase()
+        .includes(keyword)
+    );
+
+    hasil.forEach(vendor=>{
+
+        const div =
+        document.createElement("div");
+
+        div.innerHTML = vendor;
+
+        div.style.padding = "8px";
+        div.style.cursor = "pointer";
+        div.style.borderBottom =
+        "1px solid #eee";
+
+        div.onclick = function(){
+
+            input.value = vendor;
+
+            list.innerHTML = "";
+
+        };
+
+        list.appendChild(div);
+
+    });
 
 }
 
