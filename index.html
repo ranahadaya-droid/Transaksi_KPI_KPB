@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-
 <html>
 <head>
 
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>Pengajuan Pembayaran V3</title>
@@ -18,11 +18,11 @@ body{
 }
 
 .card{
-    background:#fff;
+    background:white;
     padding:15px;
-    margin-bottom:15px;
     border-radius:10px;
-    box-shadow:0 2px 5px rgba(0,0,0,.1);
+    margin-bottom:15px;
+    box-shadow:0 2px 5px rgba(0,0,0,0.1);
 }
 
 label{
@@ -36,22 +36,18 @@ select,
 textarea{
     width:100%;
     padding:10px;
-    margin-top:5px;
     box-sizing:border-box;
+    margin-top:5px;
 }
 
 button{
     width:100%;
     padding:12px;
+    margin-top:10px;
     border:none;
     border-radius:6px;
-    color:#fff;
+    color:white;
     cursor:pointer;
-    margin-top:10px;
-}
-
-.btn-blue{
-    background:#1976d2;
 }
 
 .btn-green{
@@ -64,16 +60,16 @@ button{
 
 .item{
     border:1px solid #ddd;
-    border-radius:8px;
     padding:10px;
+    border-radius:8px;
     margin-bottom:10px;
     background:#fafafa;
 }
 
 .total{
-    text-align:center;
-    font-size:22px;
+    font-size:24px;
     font-weight:bold;
+    text-align:center;
     color:#1976d2;
 }
 
@@ -87,21 +83,34 @@ button{
 
 <h2>Header Pengajuan</h2>
 
-<label>Jenis</label> <select id="jenis"> <option value="">Pilih Jenis</option> <option value="Permintaan">Permintaan</option> <option value="Reimburse">Reimburse</option> </select>
+<label>Jenis</label>
+<select id="jenis">
+    <option value="">Pilih Jenis</option>
+    <option value="Permintaan">Permintaan</option>
+    <option value="Reimburse">Reimburse</option>
+</select>
 
-<label>Klien</label> <select id="klien"> <option value="">Pilih Klien</option> <option value="KPI">KPI</option> <option value="KPB">KPB</option> </select>
+<label>Klien</label>
+<select id="klien">
+    <option value="">Pilih Klien</option>
+    <option value="KPI">KPI</option>
+    <option value="KPB">KPB</option>
+</select>
 
-<label>Nama Pengaju</label> <input type="text" id="nama_pengaju">
+<label>Nama Pengaju</label>
+<input id="nama_pengaju">
 
 <label>Keperluan</label>
-
 <textarea id="keperluan"></textarea>
 
-<label>Nomor Rekening</label> <input type="text" id="nomor_rekening">
+<label>Nomor Rekening</label>
+<input id="nomor_rekening">
 
-<label>Nama Bank</label> <select id="nama_bank"> <option value="">Pilih Bank</option> <option>MANDIRI</option> <option>BCA</option> <option>BNI</option> <option>BRI</option> <option>CIMB NIAGA</option> <option>BANK LAIN</option> </select>
+<label>Nama Bank</label>
+<input id="nama_bank">
 
-<label>Atas Nama</label> <input type="text" id="atas_nama">
+<label>Atas Nama</label>
+<input id="atas_nama">
 
 </div>
 
@@ -116,9 +125,9 @@ type="button"
 class="btn-green"
 onclick="tambahItem()">
 
-* Tambah Item
++ Tambah Item
 
-  </button>
+</button>
 
 </div>
 
@@ -127,7 +136,9 @@ onclick="tambahItem()">
 <h2>Total Tagihan Vendor</h2>
 
 <div class="total">
+
 Rp <span id="grandTotal">0</span>
+
 </div>
 
 </div>
@@ -140,96 +151,104 @@ function tambahItem(){
 
     counter++;
 
-    const html = `
+    let container =
+    document.getElementById(
+        "detailContainer"
+    );
 
-    <div class="item" id="item_${counter}">
+    let div =
+    document.createElement("div");
 
-        <label>Tanggal Nota</label>
-        <input type="date" class="tanggal_nota">
+    div.className = "item";
 
-        <label>Vendor</label>
-        <input type="text" class="vendor">
+    div.id = "item_" + counter;
 
-        <label>Nama Barang</label>
-        <input type="text" class="nama_barang">
+    div.innerHTML = `
+    
+    <label>Tanggal Nota</label>
+    <input type="date" class="tanggal_nota">
 
-        <label>Qty</label>
-        <input type="number" class="qty">
+    <label>Vendor</label>
+    <input type="text" class="vendor">
 
-        <label>Satuan</label>
-        <input type="text" class="satuan">
+    <label>Nama Barang</label>
+    <input type="text" class="nama_barang">
 
-        <label>Nominal Tagihan</label>
-        <input
-        type="number"
-        class="nominal_tagihan"
-        oninput="hitungTotal()">
+    <label>Qty</label>
+    <input type="number" class="qty">
 
-        <label>Keterangan</label>
-        <textarea class="keterangan"></textarea>
+    <label>Satuan</label>
+    <input type="text" class="satuan">
+
+    <label>Nominal Tagihan</label>
+    <input
+    type="number"
+    class="nominal_tagihan"
+    oninput="hitungTotal()">
+
+    <label>Keterangan</label>
+    <textarea class="keterangan"></textarea>
 
     <button
     type="button"
     class="btn-red"
     onclick="hapusItem(${counter})">
+
     Hapus Item
+
     </button>
 
-</div>
+    `;
 
-`;
-
-document
-.getElementById("detailContainer")
-.insertAdjacentHTML(
-    "beforeend",
-    html
-);
-```
+    container.appendChild(div);
 
 }
 
 function hapusItem(id){
 
-```
-const el =
-document.getElementById(
-    "item_"+id
-);
+    let item =
+    document.getElementById(
+        "item_" + id
+    );
 
-if(el){
-    el.remove();
-}
+    if(item){
 
-hitungTotal();
-```
+        item.remove();
+
+    }
+
+    hitungTotal();
 
 }
 
 function hitungTotal(){
 
-```
-let total = 0;
+    let total = 0;
 
-document
-.querySelectorAll(".nominal_tagihan")
-.forEach(x=>{
+    let nominals =
+    document.querySelectorAll(
+        ".nominal_tagihan"
+    );
 
-    total +=
-    Number(x.value || 0);
+    nominals.forEach(function(x){
 
-});
+        total +=
+        Number(x.value || 0);
 
-document
-.getElementById("grandTotal")
-.innerText =
-total.toLocaleString(
-    "id-ID"
-);
+    });
+
+    document.getElementById(
+        "grandTotal"
+    ).innerText =
+    total.toLocaleString("id-ID");
 
 }
 
-tambahItem();
+window.onload = function(){
+
+    tambahItem();
+
+}
 
 </script>
 
