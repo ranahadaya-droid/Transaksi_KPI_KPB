@@ -262,6 +262,25 @@ window.supabase.createClient(
     
 let counter = 0;
 
+const sb =
+window.supabase.createClient(
+  "https://dwfkjlcmjnbhuieqkpkl.supabase.co",
+  "ANON_KEY_ANDA"
+);
+
+async function testSupabase(){
+
+    const { data, error } =
+    await sb
+    .from("master_vendor")
+    .select("id,nama_vendor")
+    .limit(3);
+
+    console.log("DATA:", data);
+    console.log("ERROR:", error);
+
+}
+    
 console.log("VERSI TERBARU 01");
 
 function tambahItem(){
@@ -510,6 +529,8 @@ function previewPengajuan(){
 
 }
 
+testSupabase();
+    
 </script>
 
 </body>
