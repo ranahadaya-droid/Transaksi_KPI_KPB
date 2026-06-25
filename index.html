@@ -369,11 +369,10 @@ function hitungTotal(){
 
 }
 
-    function cariVendor(input){
+    async function cariVendor(input){
 
     const keyword =
-    input.value
-    .toLowerCase();
+    input.value.trim();
 
     const list =
     input.nextElementSibling;
@@ -381,44 +380,45 @@ function hitungTotal(){
     list.innerHTML = "";
 
     if(keyword.length < 2){
+        return;
+    }
+
+    const { data, error } =
+    await supabase
+    .from("master_vendor")
+    .select("nama_vendor")
+    .ilike(
+        "nama_vendor",
+        `%${keyword}%`
+    )
+    .limit(10);
+
+    if(error){
+
+        console.log(error);
 
         return;
 
     }
 
-    const dummyVendor = [
-
-        "Pertamina Patra Niaga",
-        "Pertamina Patra Logistik",
-        "Pertamina Training Consulting",
-        "Bareh Solok",
-        "Indomaret",
-        "Alfamart"
-
-    ];
-
-    const hasil =
-    dummyVendor.filter(vendor =>
-        vendor
-        .toLowerCase()
-        .includes(keyword)
-    );
-
-    hasil.forEach(vendor=>{
+    data.forEach(row=>{
 
         const div =
         document.createElement("div");
 
-        div.innerHTML = vendor;
+        div.innerHTML =
+        row.nama_vendor;
 
-        div.style.padding = "8px";
-        div.style.cursor = "pointer";
-        div.style.borderBottom =
-        "1px solid #eee";
+        div.style.padding =
+        "8px";
+
+        div.style.cursor =
+        "pointer";
 
         div.onclick = function(){
 
-            input.value = vendor;
+            input.value =
+            row.nama_vendor;
 
             list.innerHTML = "";
 
