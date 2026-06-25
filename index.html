@@ -408,12 +408,12 @@ function hitungTotal(){
     }
 
     const { data, error } =
-    await supabase
+    await sb
     .from("master_vendor")
     .select("nama_vendor")
     .ilike(
-        "nama_vendor",
-        `%${keyword}%`
+    "nama_vendor",
+    `%${keyword}%`
     )
     .limit(10);
 
