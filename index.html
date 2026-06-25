@@ -273,11 +273,17 @@ async function testSupabase(){
     const { data, error } =
     await sb
     .from("master_vendor")
-    .select("id,nama_vendor")
-    .limit(3);
+    .select("*")
+    .limit(1);
 
     console.log("DATA:", data);
     console.log("ERROR:", error);
+
+    if(error){
+        console.log("MESSAGE:", error.message);
+        console.log("DETAILS:", error.details);
+        console.log("CODE:", error.code);
+    }
 
 }
     
