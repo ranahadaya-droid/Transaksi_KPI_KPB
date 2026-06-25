@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Input Transaksi</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+
+body{
+  font-family:Arial;
+  max-width:500px;
+  margin:auto;
+  padding:15px;
+}
+
+input,select{
+  width:100%;
+  padding:12px;
+  margin-bottom:10px;
+  box-sizing:border-box;
+}
+
+button{
+  width:100%;
+  padding:15px;
+  border:none;
+  background:#1976d2;
+  color:white;
+  font-size:16px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h2>Input Transaksi</h2>
+
+<select id="jenis">
+  <option value="">Pilih Jenis</option>
+  <option value="Permintaan">Permintaan</option>
+  <option value="Reimburse">Reimburse</option>
+</select>
+
+<select id="klien">
+  <option value="">Pilih Klien</option>
+  <option value="KPI">KPI</option>
+  <option value="KPB">KPB</option>
+</select>
+
+<input
+id="pengaju"
+placeholder="Nama Pengaju">
+
+<input
+id="vendor"
+placeholder="Vendor">
+
+<input
+type="date"
+id="tanggal_nota">
+
+<input
+type="number"
+id="nominal"
+placeholder="Nominal">
+
+<button onclick="simpan()">
+Simpan
+</button>
+
+<script>
+
+const supabaseUrl =
+"ISI_SUPABASE_URL";
+
+const supabaseKey =
+"ISI_SUPABASE_ANON_KEY";
+
+const supabase =
+window.supabase.createClient(
+supabaseUrl,
+supabaseKey
+);
+
+async function simpan(){
+
+  const jenis =
+  document.getElementById("jenis").value;
+
+  const tanggalNota =
+  document.getElementById("tanggal_nota").value;
+
+  if(
+    jenis==="Reimburse"
+    &&
+    tanggalNota==""
+  ){
+    alert(
+      "Tanggal Nota wajib untuk Reimburse"
+    );
+    return;
+  }
+
+  const { error } =
+  await supabase
+  .from("transaksi")
+  .insert([{
+
+      jenis:
+      document.getElementById("jenis").value,
+
+      klien:
+      document.getElementById("klien").value,
+
+      pengaju:
+      document.getElementById("pengaju").value,
+
+      vendor:
+      document.getElementById("vendor").value,
+
+      tanggal_nota:
+      tanggalNota || null,
+
+      nominal:
+      document.getElementById("nominal").value
+
+  }]);
+
+  if(error){
+
+    alert(error.message);
+
+  }else{
+
+    alert(
+      "Transaksi berhasil disimpan"
+    );
+
+    location.reload();
+
+  }
+
+}
+
+</script>
+
+</body>
+
+</html>
