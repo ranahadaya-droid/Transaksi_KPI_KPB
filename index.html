@@ -1,48 +1,119 @@
 <!DOCTYPE html>
-
 <html>
-
 <head>
+
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Input Transaksi</title>
+
+<title>Pengajuan Pembayaran</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 
 body{
-  font-family:Arial;
-  max-width:500px;
+  font-family:Arial,sans-serif;
+  max-width:700px;
   margin:auto;
   padding:15px;
+  background:#f5f5f5;
 }
 
-input,select{
+.card{
+  background:white;
+  padding:15px;
+  border-radius:10px;
+  margin-bottom:15px;
+  box-shadow:0 2px 5px rgba(0,0,0,0.1);
+}
+
+h2,h3{
+  margin-top:0;
+}
+
+label{
+  display:block;
+  margin-top:10px;
+  margin-bottom:5px;
+  font-weight:bold;
+}
+
+input,
+select,
+textarea{
   width:100%;
-  padding:12px;
-  margin-bottom:10px;
+  padding:10px;
   box-sizing:border-box;
+  margin-bottom:8px;
 }
 
 button{
   width:100%;
-  padding:15px;
-  margin-bottom:10px;
+  padding:12px;
   border:none;
+  border-radius:6px;
   background:#1976d2;
   color:white;
-  font-size:16px;
+  font-size:15px;
+  cursor:pointer;
+  margin-top:5px;
 }
 
-table{
-  width:100%;
-  border-collapse:collapse;
+button:hover{
+  opacity:0.9;
 }
 
-th,td{
+.btn-green{
+  background:#2e7d32;
+}
+
+.btn-red{
+  background:#c62828;
+}
+
+.item{
   border:1px solid #ddd;
-  padding:5px;
-  font-size:12px;
+  border-radius:8px;
+  padding:10px;
+  margin-bottom:10px;
+  background:#fafafa;
+}
+
+.total-box{
+  background:#e3f2fd;
+  padding:10px;
+  border-radius:8px;
+  text-align:center;
+  font-weight:bold;
+  font-size:18px;
+}
+
+#popup{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  background:rgba(0,0,0,0.6);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:999;
+}
+
+.popup-content{
+  background:white;
+  width:90%;
+  max-width:500px;
+  padding:20px;
+  border-radius:10px;
+}
+
+#hasilWA{
+  white-space:pre-wrap;
+  background:#f7f7f7;
+  border:1px solid #ddd;
+  padding:10px;
+  border-radius:8px;
 }
 
 </style>
@@ -51,52 +122,145 @@ th,td{
 
 <body>
 
-<h2>Input Transaksi</h2>
+<div class="card">
 
+<h2>Pengajuan Pembayaran</h2>
+
+<label>Jenis</label>
 <select id="jenis">
   <option value="">Pilih Jenis</option>
   <option value="Permintaan">Permintaan</option>
   <option value="Reimburse">Reimburse</option>
 </select>
 
+<label>Klien</label>
 <select id="klien">
   <option value="">Pilih Klien</option>
   <option value="KPI">KPI</option>
   <option value="KPB">KPB</option>
 </select>
 
-<input id="nama_pengaju" placeholder="Nama Pengaju">
+<label>Nama Pengaju</label>
+<input type="text" id="nama_pengaju">
 
-<input id="vendor" placeholder="Vendor">
+<label>Nomor Rekening</label>
+<input type="text" id="nomor_rekening">
 
-<label>Tanggal Nota</label>
-<input type="date" id="tanggal_nota">
+<label>Nama Bank</label>
 
-<label>Nama Barang</label>
-<input id="nama_barang">
+<select id="nama_bank" onchange="toggleBankLain()">
+  <option value="">Pilih Bank</option>
+  <option value="MANDIRI">MANDIRI</option>
+  <option value="BCA">BCA</option>
+  <option value="BRI">BRI</option>
+  <option value="BNI">BNI</option>
+  <option value="CIMB NIAGA">CIMB NIAGA</option>
+  <option value="PERMATA">PERMATA</option>
+  <option value="BTN">BTN</option>
+  <option value="BANK LAIN">BANK LAIN</option>
+</select>
 
-<label>Jumlah Barang</label>
-<input type="number" id="jumlah_barang">
+<input
+type="text"
+id="bank_lain"
+placeholder="Ketik Nama Bank"
+style="display:none;">
+
+<label>Atas Nama</label>
+<input type="text" id="atas_nama">
+
+</div>
+
+<div class="card">
+
+<h3>Detail Pengajuan</h3>
+
+<div id="detailContainer"></div>
+
+<button
+type="button"
+class="btn-green"
+onclick="tambahItem()">
++ Tambah Item
+</button>
+
+<br><br>
+
+<div class="total-box">
+
+Total Tagihan Vendor
+
+<br>
+
+Rp <span id="totalTagihan">0</span>
+
+</div>
+
+<br>
+
+<button onclick="bukaPopup()">
+Simpan Pengajuan
+</button>
+
+</div>
+
+<div id="popup">
+
+<div class="popup-content">
+
+<h3>Ringkasan Pengajuan</h3>
 
 <label>Nominal Tagihan</label>
-<input type="number" id="nominal_tagihan">
+<input
+type="text"
+id="popup_nominal_tagihan"
+readonly>
 
-<label>Nominal Kesepakatan</label>
-<input type="number" id="nominal_kesepakatan">
+<label>Nominal Kesepakatan (Opsional)</label>
+<input
+type="number"
+id="nominal_kesepakatan">
 
-<label>Biaya Admin</label>
-<input type="number" id="biaya_admin">
+<label>Biaya Admin (Opsional)</label>
+<input
+type="number"
+id="biaya_admin">
 
-<button onclick="simpan()">Simpan</button>
+<button
+class="btn-green"
+onclick="simpanFinal()">
+Simpan Final
+</button>
 
-<button onclick="loadData()">Lihat Data</button>
+<button
+class="btn-red"
+onclick="tutupPopup()">
+Batal
+</button>
 
-<div id="hasil"></div>
+</div>
+
+</div>
+
+<div class="card" id="hasilCard" style="display:none">
+
+<h3>Format WA / Finance</h3>
+
+<div id="hasilWA"></div>
+
+<button onclick="copyWA()">
+Copy Format WA
+</button>
+
+</div>
 
 <script>
 
-const supabaseUrl = "ISI_SUPABASE_URL";
-const supabaseKey = "ISI_SUPABASE_ANON_KEY";
+const supabaseUrl =
+"ISI_SUPABASE_URL";
+
+const supabaseKey =
+"ISI_SUPABASE_ANON_KEY";
 
 const supabase =
 window.supabase.createClient(
@@ -104,109 +268,479 @@ window.supabase.createClient(
   supabaseKey
 );
 
-async function simpan(){
+let jumlahItem = 0;
 
-  const jenis =
-    document.getElementById("jenis").value;
+tambahItem();
 
-  const tanggalNota =
-    document.getElementById("tanggal_nota").value;
+function toggleBankLain(){
 
-  if(
-    jenis==="Reimburse" &&
-    tanggalNota==""
-  ){
-    alert(
-      "Tanggal Nota wajib untuk Reimburse"
-    );
-    return;
-  }
+  const bank =
+  document.getElementById("nama_bank").value;
 
-  const { error } =
-  await supabase
-  .from("transaksi")
-  .insert([{
+  const bankLain =
+  document.getElementById("bank_lain");
 
-    jenis:
-      document.getElementById("jenis").value,
-
-    klien:
-      document.getElementById("klien").value,
-
-    nama_pengaju:
-      document.getElementById("nama_pengaju").value,
-
-    vendor:
-      document.getElementById("vendor").value,
-
-    tanggal_nota:
-      document.getElementById("tanggal_nota").value || null,
-
-    nama_barang:
-      document.getElementById("nama_barang").value,
-
-    jumlah_barang:
-      document.getElementById("jumlah_barang").value || 0,
-
-    nominal_tagihan:
-      document.getElementById("nominal_tagihan").value || 0,
-
-    nominal_kesepakatan:
-      document.getElementById("nominal_kesepakatan").value || 0,
-
-    biaya_admin:
-      document.getElementById("biaya_admin").value || 0
-
-  }]);
-
-  if(error){
-    alert(error.message);
+  if(bank==="BANK LAIN"){
+    bankLain.style.display="block";
   }else{
-    alert("Transaksi berhasil disimpan");
-    location.reload();
+    bankLain.style.display="none";
+    bankLain.value="";
   }
+
 }
 
-async function loadData(){
+function tambahItem(){
 
-  const { data, error } =
-  await supabase
-  .from('transaksi')
-  .select('*')
-  .order('id',{ascending:false})
-  .limit(20);
+  jumlahItem++;
 
-  if(error){
-    alert(error.message);
-    return;
+  const html = `
+
+  <div class="item" id="item_${jumlahItem}">
+
+    <label>Tanggal Nota</label>
+    <input
+      type="date"
+      class="tanggal_nota">
+
+    <label>Vendor</label>
+    <input
+      type="text"
+      class="vendor">
+
+    <label>Nama Barang</label>
+    <input
+      type="text"
+      class="nama_barang">
+
+    <label>Qty</label>
+    <input
+      type="number"
+      class="qty">
+
+    <label>Satuan</label>
+    <input
+      type="text"
+      class="satuan">
+
+    <label>Nominal Tagihan</label>
+    <input
+      type="number"
+      class="nominal_tagihan"
+      oninput="hitungTotal()">
+
+    <label>Keterangan</label>
+    <textarea
+      class="keterangan"></textarea>
+
+    <button
+      type="button"
+      class="btn-red"
+      onclick="hapusItem(${jumlahItem})">
+
+      Hapus Item
+
+    </button>
+
+  </div>
+
+  `;
+
+  document
+  .getElementById("detailContainer")
+  .insertAdjacentHTML(
+    "beforeend",
+    html
+  );
+
+}
+
+function hapusItem(id){
+
+  const item =
+  document.getElementById(
+    "item_"+id
+  );
+
+  if(item){
+    item.remove();
   }
 
-  let html = `
-  <table>
-  <tr>
-    <th>No</th>
-    <th>Klien</th>
-    <th>Vendor</th>
-    <th>Barang</th>
-    <th>Tagihan</th>
-  </tr>`;
+  hitungTotal();
 
-  data.forEach(row=>{
+}
 
-    html += `
-    <tr>
-      <td>${row.no_transaksi || ''}</td>
-      <td>${row.klien || ''}</td>
-      <td>${row.vendor || ''}</td>
-      <td>${row.nama_barang || ''}</td>
-      <td>${Number(row.nominal_tagihan || 0).toLocaleString()}</td>
-    </tr>`;
+function hitungTotal(){
+
+  let total = 0;
+
+  document
+  .querySelectorAll(
+    ".nominal_tagihan"
+  )
+  .forEach(el=>{
+
+    total +=
+    Number(el.value || 0);
+
   });
 
-  html += "</table>";
+  document
+  .getElementById(
+    "totalTagihan"
+  )
+  .innerText =
+  total.toLocaleString(
+    "id-ID"
+  );
 
-  document.getElementById("hasil").innerHTML =
-  html;
+}
+
+function bukaPopup(){
+
+  let total = 0;
+
+  document
+  .querySelectorAll(
+    ".nominal_tagihan"
+  )
+  .forEach(el=>{
+
+    total +=
+    Number(el.value || 0);
+
+  });
+
+  document
+  .getElementById(
+    "popup_nominal_tagihan"
+  )
+  .value =
+  total.toLocaleString(
+    "id-ID"
+  );
+
+  document
+  .getElementById(
+    "popup"
+  )
+  .style.display =
+  "flex";
+
+}
+
+function tutupPopup(){
+
+  document
+  .getElementById(
+    "popup"
+  )
+  .style.display =
+  "none";
+
+}
+
+function getNamaBank(){
+
+  let bank =
+  document
+  .getElementById(
+    "nama_bank"
+  )
+  .value;
+
+  if(bank==="BANK LAIN"){
+
+    bank =
+    document
+    .getElementById(
+      "bank_lain"
+    )
+    .value;
+
+  }
+
+  return bank;
+
+}
+async function simpanFinal(){
+
+  try{
+
+    let totalTagihan = 0;
+
+    document
+    .querySelectorAll(".nominal_tagihan")
+    .forEach(el=>{
+
+      totalTagihan +=
+      Number(el.value || 0);
+
+    });
+
+    const headerData = {
+
+      jenis:
+      document.getElementById("jenis").value,
+
+      klien:
+      document.getElementById("klien").value,
+
+      nama_pengaju:
+      document.getElementById("nama_pengaju").value,
+
+      nomor_rekening:
+      document.getElementById("nomor_rekening").value,
+
+      nama_bank:
+      getNamaBank(),
+
+      atas_nama:
+      document.getElementById("atas_nama").value,
+
+      nominal_tagihan:
+      totalTagihan,
+
+      nominal_kesepakatan:
+      Number(
+        document.getElementById(
+          "nominal_kesepakatan"
+        ).value || 0
+      ),
+
+      biaya_admin:
+      Number(
+        document.getElementById(
+          "biaya_admin"
+        ).value || 0
+      )
+
+    };
+
+    const {
+      data: header,
+      error: headerError
+    } = await supabase
+      .from("pengajuan_header")
+      .insert([headerData])
+      .select()
+      .single();
+
+    if(headerError){
+
+      alert(headerError.message);
+      return;
+
+    }
+
+    const details = [];
+
+    const tanggals =
+    document.querySelectorAll(
+      ".tanggal_nota"
+    );
+
+    const vendors =
+    document.querySelectorAll(
+      ".vendor"
+    );
+
+    const barangs =
+    document.querySelectorAll(
+      ".nama_barang"
+    );
+
+    const qtys =
+    document.querySelectorAll(
+      ".qty"
+    );
+
+    const satuans =
+    document.querySelectorAll(
+      ".satuan"
+    );
+
+    const nominals =
+    document.querySelectorAll(
+      ".nominal_tagihan"
+    );
+
+    const keterangans =
+    document.querySelectorAll(
+      ".keterangan"
+    );
+
+    for(
+      let i=0;
+      i<vendors.length;
+      i++
+    ){
+
+      details.push({
+
+        header_id:
+        header.id,
+
+        tanggal_nota:
+        tanggals[i].value || null,
+
+        vendor:
+        vendors[i].value,
+
+        nama_barang:
+        barangs[i].value,
+
+        qty:
+        qtys[i].value || 0,
+
+        satuan:
+        satuans[i].value,
+
+        nominal_tagihan:
+        nominals[i].value || 0,
+
+        keterangan:
+        keterangans[i].value
+
+      });
+
+    }
+
+    const {
+      error: detailError
+    } = await supabase
+      .from("pengajuan_detail")
+      .insert(details);
+
+    if(detailError){
+
+      alert(detailError.message);
+      return;
+
+    }
+
+    let waText = "";
+
+    waText +=
+    "=================================\n\n";
+
+    waText +=
+    (header.no_pengajuan || "-")
+    + "\n\n";
+
+    waText +=
+    "Bank : "
+    + header.nama_bank
+    + "\n";
+
+    waText +=
+    "No Rek : "
+    + header.nomor_rekening
+    + "\n";
+
+    waText +=
+    "Atas Nama : "
+    + header.atas_nama
+    + "\n\n";
+
+    waText +=
+    "TOTAL BAYAR\n";
+
+    waText +=
+    "Rp "
+    + Number(
+        totalTagihan
+      ).toLocaleString(
+        "id-ID"
+      )
+    + "\n\n";
+
+    waText +=
+    "RINCIAN\n\n";
+
+    details.forEach(
+      (item,index)=>{
+
+      waText +=
+      (index+1)
+      + ". "
+      + (item.vendor || "-")
+      + "\n";
+
+      waText +=
+      "   "
+      + (item.nama_barang || "-")
+      + "\n";
+
+      if(item.keterangan){
+
+        waText +=
+        "   "
+        + item.keterangan
+        + "\n";
+
+      }
+
+      waText +=
+      "   Rp "
+      + Number(
+          item.nominal_tagihan
+        ).toLocaleString(
+          "id-ID"
+        )
+      + "\n\n";
+
+    });
+
+    waText +=
+    "=================================";
+
+    document
+    .getElementById(
+      "hasilWA"
+    )
+    .innerText =
+    waText;
+
+    document
+    .getElementById(
+      "hasilCard"
+    )
+    .style.display =
+    "block";
+
+    tutupPopup();
+
+    alert(
+      "Pengajuan berhasil disimpan"
+    );
+
+  }catch(err){
+
+    alert(err.message);
+
+  }
+
+}
+
+function copyWA(){
+
+  const text =
+  document
+  .getElementById(
+    "hasilWA"
+  )
+  .innerText;
+
+  navigator.clipboard
+  .writeText(text)
+  .then(()=>{
+
+    alert(
+      "Format berhasil dicopy"
+    );
+
+  });
+
 }
 
 </script>
