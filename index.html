@@ -69,19 +69,23 @@ th,td{
 
 <input id="vendor" placeholder="Vendor">
 
+<label>Tanggal Nota</label>
 <input type="date" id="tanggal_nota">
 
-<input type="date" id="tanggal_bayar">
+<label>Nama Barang</label>
+<input id="nama_barang">
 
-<input id="nama_barang" placeholder="Nama Barang">
+<label>Jumlah Barang</label>
+<input type="number" id="jumlah_barang">
 
-<input type="number" id="jumlah_barang" placeholder="Jumlah Barang">
+<label>Nominal Tagihan</label>
+<input type="number" id="nominal_tagihan">
 
-<input type="number" id="nominal_tagihan" placeholder="Nominal Tagihan">
+<label>Nominal Kesepakatan</label>
+<input type="number" id="nominal_kesepakatan">
 
-<input type="number" id="nominal_kesepakatan" placeholder="Nominal Kesepakatan">
-
-<input type="number" id="biaya_admin" placeholder="Biaya Admin">
+<label>Biaya Admin</label>
+<input type="number" id="biaya_admin">
 
 <button onclick="simpan()">Simpan</button>
 
@@ -137,9 +141,6 @@ async function simpan(){
 
     tanggal_nota:
       document.getElementById("tanggal_nota").value || null,
-
-    tanggal_bayar:
-      document.getElementById("tanggal_bayar").value || null,
 
     nama_barang:
       document.getElementById("nama_barang").value,
