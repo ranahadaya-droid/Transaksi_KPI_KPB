@@ -107,7 +107,53 @@ button{
 <input id="nomor_rekening">
 
 <label>Nama Bank</label>
-<input id="nama_bank">
+<label>Nama Bank</label>
+
+<select
+id="nama_bank"
+onchange="toggleBankLain()">
+
+    <option value="">
+        Pilih Bank
+    </option>
+
+    <option value="MANDIRI">
+        MANDIRI
+    </option>
+
+    <option value="BCA">
+        BCA
+    </option>
+
+    <option value="BNI">
+        BNI
+    </option>
+
+    <option value="BRI">
+        BRI
+    </option>
+
+    <option value="CIMB NIAGA">
+        CIMB NIAGA
+    </option>
+
+    <option value="BANK LAIN">
+        BANK LAIN
+    </option>
+
+</select>
+
+<div
+id="bankLainDiv"
+style="display:none">
+
+<label>Nama Bank Lain</label>
+
+<input
+type="text"
+id="bank_lain">
+
+</div>
 
 <label>Atas Nama</label>
 <input id="atas_nama">
@@ -147,6 +193,42 @@ onclick="tambahItem()">
 Rp <span id="grandTotal">0</span>
 
 </div>
+
+</div>
+
+<div class="card">
+
+<h2>Ringkasan Pengajuan</h2>
+
+<label>Nominal Kesepakatan (Opsional)</label>
+<input
+type="number"
+id="nominal_kesepakatan">
+
+<label>Biaya Admin (Opsional)</label>
+<input
+type="number"
+id="biaya_admin">
+
+<button
+type="button"
+class="btn-green"
+onclick="previewPengajuan()">
+
+Preview Pengajuan
+
+</button>
+
+</div>
+
+<div
+class="card"
+id="previewCard"
+style="display:none">
+
+<h2>Preview Pengajuan</h2>
+
+<div id="previewData"></div>
 
 </div>
 
@@ -258,6 +340,79 @@ function hitungTotal(){
 
 }
 
+    function toggleBankLain(){
+
+    const bank =
+    document.getElementById(
+        "nama_bank"
+    ).value;
+
+    if(bank==="BANK LAIN"){
+
+        document
+        .getElementById(
+            "bankLainDiv"
+        )
+        .style.display =
+        "block";
+
+    }else{
+
+        document
+        .getElementById(
+            "bankLainDiv"
+        )
+        .style.display =
+        "none";
+
+    }
+
+}
+function previewPengajuan(){
+
+    const total =
+    document.getElementById(
+        "grandTotal"
+    ).innerText;
+
+    const kesepakatan =
+    document.getElementById(
+        "nominal_kesepakatan"
+    ).value || 0;
+
+    const admin =
+    document.getElementById(
+        "biaya_admin"
+    ).value || 0;
+
+    let html = `
+
+    <p>
+    <b>Total Tagihan Vendor :</b><br>
+    Rp ${total}
+    </p>
+
+    <p>
+    <b>Nominal Kesepakatan :</b><br>
+    Rp ${Number(kesepakatan).toLocaleString("id-ID")}
+    </p>
+
+    <p>
+    <b>Biaya Admin :</b><br>
+    Rp ${Number(admin).toLocaleString("id-ID")}
+    </p>
+
+    `;
+
+    document
+    .getElementById("previewData")
+    .innerHTML = html;
+
+    document
+    .getElementById("previewCard")
+    .style.display = "block";
+
+}
 
 </script>
 
