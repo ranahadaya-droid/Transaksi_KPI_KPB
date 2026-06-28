@@ -383,6 +383,7 @@ window.supabase.createClient(
     
 let counter = 0;
 
+    let inputVendorAktif = null;
 const sb =
 window.supabase.createClient(
   "https://dwfkjlcmjnbhuieqkpkl.supabase.co",
@@ -655,6 +656,34 @@ function hitungTotal(){
 
     function toggleBankLain(){
 
+        function ubahTipeVendor(){
+
+    const tipe =
+    document
+    .getElementById(
+    "vendorBaruTipe"
+    )
+    .value;
+
+    const disabled =
+    tipe=="NON REGULER";
+
+    document
+    .getElementById(
+    "vendorTerminTagihan"
+    )
+    .disabled =
+    disabled;
+
+    document
+    .getElementById(
+    "vendorTerminBayar"
+    )
+    .disabled =
+    disabled;
+
+}
+
     const bank =
     document.getElementById(
         "nama_bank"
@@ -820,6 +849,55 @@ btn.innerHTML = "⏳ Menyimpan...";
             return;
 
         }
+        // =====================
+// CEK VENDOR BARU
+// =====================
+
+const vendors =
+document.querySelectorAll(".vendor");
+
+for(const vendorInput of vendors){
+
+    const namaVendor =
+    vendorInput.value.trim();
+
+    if(namaVendor=="") continue;
+
+    const { data, error } =
+    await sb
+    .from("master_vendor")
+    .select("id")
+    .ilike("nama_vendor", namaVendor)
+    .limit(1);
+
+    if(error){
+
+        alert(error.message);
+
+        return;
+
+    }
+
+    if(data.length==0){
+
+        inputVendorAktif =
+        vendorInput;
+
+        document
+        .getElementById("vendorBaruNama")
+        .value =
+        namaVendor;
+
+        document
+        .getElementById("popupVendorBaru")
+        .style.display =
+        "flex";
+
+        return;
+
+    }
+
+}
         // =====================
         // HITUNG TOTAL TAGIHAN
         // =====================
@@ -1265,5 +1343,76 @@ alert(
 }
 </script>
 
+    <div id="popupVendorBaru" class="popup">
+
+<div class="popup-card">
+
+<h2>Vendor Baru</h2>
+
+<p>
+Vendor belum terdaftar.
+</p>
+
+<label>Nama Vendor</label>
+
+<input
+id="vendorBaruNama">
+
+<label>Tipe Vendor</label>
+
+<select
+id="vendorBaruTipe"
+onchange="ubahTipeVendor()">
+
+<option value="REGULER">
+
+REGULER
+
+</option>
+
+<option value="NON REGULER">
+
+NON REGULER
+
+</option>
+
+</select>
+
+<label>Termin Tagihan</label>
+
+<input
+type="number"
+id="vendorTerminTagihan">
+
+<label>Termin Pembayaran</label>
+
+<input
+type="number"
+id="vendorTerminBayar">
+
+<label>PIC</label>
+
+<input
+id="vendorPIC">
+
+<button
+class="btn-green"
+onclick="simpanVendorBaru()">
+
+Simpan Vendor
+
+</button>
+
+<button
+class="btn-red"
+onclick="tutupVendorBaru()">
+
+Batal
+
+</button>
+
+</div>
+
+</div>
 </body>
 </html>
