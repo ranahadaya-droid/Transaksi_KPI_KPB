@@ -957,6 +957,29 @@ btn.innerText="Simpan Pengajuan";
         headerData.id;
 
         // =====================
+// AUDIT LOG
+// =====================
+
+const { error:logError } =
+await sb
+.from("pengajuan_log")
+.insert([{
+
+    header_id: headerId,
+
+    no_pengajuan: nomorPengajuan,
+
+    aktivitas: "PENGAJUAN DIBUAT"
+
+}]);
+
+if(logError){
+
+    console.log(logError);
+
+}
+
+        // =====================
         // INSERT DETAIL
         // =====================
 
