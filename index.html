@@ -710,6 +710,25 @@ alert(
 }
         const nomorPengajuan =
         await generateNomorPengajuan();
+
+        const tokenTagihan =
+        crypto.randomUUID();
+
+        const tokenFinance =
+        crypto.randomUUID();
+
+        const BASE_URL =
+"https://ranahadaya-droid.github.io/Transaksi_KPI_KPB";
+
+const linkFinance =
+BASE_URL +
+"/workflow.html?type=finance&token=" +
+tokenFinance;
+
+const linkTagihan =
+BASE_URL +
+"/workflow.html?type=tagihan&token=" +
+tokenTagihan;
         // =====================
         // INSERT HEADER
         // =====================
@@ -721,6 +740,12 @@ alert(
 
             no_pengajuan:
             nomorPengajuan,
+
+            token_tagihan:
+        tokenTagihan,
+
+        token_finance:
+        tokenFinance,
             jenis:
             document.getElementById("jenis").value,
 
