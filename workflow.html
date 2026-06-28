@@ -345,6 +345,77 @@ params.get("type");
 const token =
 params.get("token");
 
+      async function loadData(){
+
+    let query =
+    sb
+    .from("pengajuan_header")
+    .select("*");
+
+    if(type=="finance"){
+
+        query =
+        query.eq(
+            "token_finance",
+            token
+        );
+
+    }else{
+
+        query =
+        query.eq(
+            "token_tagihan",
+            token
+        );
+
+    }
+
+    const {data,error} =
+    await query.single();
+
+    if(error || !data){
+
+        document
+        .getElementById("error")
+        .style.display="block";
+
+        document
+        .getElementById("btnUpdate")
+        .style.display="none";
+
+        console.log(error);
+
+        return;
+
+    }
+
+    document.getElementById("no_pengajuan").innerText =
+    data.no_pengajuan;
+
+    document.getElementById("jenis").innerText =
+    data.jenis;
+
+    document.getElementById("klien").innerText =
+    data.klien;
+
+    document.getElementById("atas_nama").innerText =
+    data.atas_nama;
+
+    document.getElementById("nama_bank").innerText =
+    data.nama_bank;
+
+    document.getElementById("nomor_rekening").innerText =
+    data.nomor_rekening;
+
+    document.getElementById("nominal_tagihan").innerText =
+    "Rp " +
+    Number(data.nominal_tagihan)
+    .toLocaleString("id-ID");
+
+}
+
+loadData();
+
 console.log(type);
 
 console.log(token);
