@@ -299,7 +299,8 @@ id="statusArea">
 </div>
 
 <button
-id="btnUpdate">
+id="btnUpdate"
+onclick="updateStatus()">
 
 UPDATE STATUS
 
@@ -412,9 +413,192 @@ params.get("token");
     Number(data.nominal_tagihan)
     .toLocaleString("id-ID");
 
+          let html = "";
+
+if(type=="finance"){
+
+    if(data.status_finance=="SUDAH"){
+
+        html = `
+
+        <div class="success" style="display:block">
+
+        ✅ Pembayaran sudah dilakukan
+
+        <br><br>
+
+        Tanggal Bayar
+
+        <br>
+
+        ${data.tanggal_bayar}
+
+        </div>
+
+        `;
+
+        document
+        .getElementById("btnUpdate")
+        .style.display="none";
+
+    }else{
+
+        html = `
+
+        <label>
+
+        <input
+        type="radio"
+        name="status"
+        value="SUDAH">
+
+        Sudah Dibayar
+
+        </label>
+
+        `;
+
+    }
+
+}else{
+
+    if(data.status_tagihan=="SUDAH"){
+
+        html = `
+
+        <div class="success" style="display:block">
+
+        ✅ Sudah Ditagihkan
+
+        <br><br>
+
+        Tanggal Tagih
+
+        <br>
+
+        ${data.tanggal_tagih}
+
+        </div>
+
+        `;
+
+        document
+        .getElementById("btnUpdate")
+        .style.display="none";
+
+    }else{
+
+        html = `
+
+        <label>
+
+        <input
+        type="radio"
+        name="status"
+        value="SUDAH">
+
+        Sudah Ditagihkan
+
+        </label>
+
+        `;
+
+    }
+
+}
+
+document
+.getElementById("statusArea")
+.innerHTML = html;
+
 }
 
 loadData();
+
+      async function updateStatus(){
+
+    const radio =
+    document.querySelector(
+    'input[name="status"]:checked'
+    );
+
+    if(!radio){
+
+        alert("Pilih status.");
+
+        return;
+
+    }
+
+    let updateData = {};
+
+    if(type=="finance"){
+
+        updateData = {
+
+            status_finance:"SUDAH",
+
+            tanggal_bayar:
+            new Date()
+            .toISOString()
+            .substring(0,10)
+
+        };
+
+    }else{
+
+        updateData = {
+
+            status_tagihan:"SUDAH",
+
+            tanggal_tagih:
+            new Date()
+            .toISOString()
+            .substring(0,10)
+
+        };
+
+    }
+
+    let query =
+    sb
+    .from("pengajuan_header")
+    .update(updateData);
+
+    if(type=="finance"){
+
+        query =
+        query.eq(
+            "token_finance",
+            token
+        );
+
+    }else{
+
+        query =
+        query.eq(
+            "token_tagihan",
+            token
+        );
+
+    }
+
+    const {error} =
+    await query;
+
+    if(error){
+
+        alert(error.message);
+
+        return;
+
+    }
+
+    alert("Status berhasil diperbarui.");
+
+    location.reload();
+
+}
 
 console.log(type);
 
