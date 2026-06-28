@@ -346,6 +346,14 @@ params.get("type");
 const token =
 params.get("token");
 
+      if(!type || !token){
+
+    alert("URL tidak valid.");
+
+    throw new Error("Parameter URL kosong");
+
+}
+
       console.log("TYPE =", type);
 console.log("TOKEN =", token);
       async function loadData(){
@@ -379,10 +387,11 @@ console.log("TOKEN :", token);
 
 console.log(query);
           
-    const {data,error} =
-    await query.single();
+   const { data, error } =
+await query.maybeSingle();
 
-          console.log(data);
+console.log("HASIL :", data);
+console.log("ERROR :", error);
 
 console.log(error);
 
