@@ -720,7 +720,7 @@ function hitungTotal(){
 
     if(nama==""){
 
-        alert("Nama vendor belum diisi.");
+        alert("Nama Vendor belum diisi.");
 
         return;
 
@@ -729,14 +729,23 @@ function hitungTotal(){
     const tipe =
     document.getElementById("vendorBaruTipe").value;
 
-    const terminTagihan =
-    document.getElementById("vendorTerminTagihan").value;
+    const terminPenagihan =
+    document.getElementById("vendorTerminPenagihan").value;
 
     const terminPembayaran =
     document.getElementById("vendorTerminPembayaran").value;
 
-    const pic =
-    document.getElementById("vendorPIC").value;
+    const pic1 =
+    document.getElementById("vendorPIC1").value;
+
+    const telp1 =
+    document.getElementById("vendorTelp1").value;
+
+    const pic2 =
+    document.getElementById("vendorPIC2").value;
+
+    const telp2 =
+    document.getElementById("vendorTelp2").value;
 
     const { error } =
     await sb
@@ -747,13 +756,23 @@ function hitungTotal(){
 
         tipe_vendor: tipe,
 
-        termin_tagihan:
-        terminTagihan=="" ? null : Number(terminTagihan),
+        termin_penagihan:
+        terminPenagihan=="" ? null : Number(terminPenagihan),
 
         termin_pembayaran:
         terminPembayaran=="" ? null : Number(terminPembayaran),
 
-        pic: pic
+        pic_1:
+        pic1 || null,
+
+        telp_pic_1:
+        telp1 || null,
+
+        pic_2:
+        pic2 || null,
+
+        telp_pic_2:
+        telp2 || null
 
     }]);
 
@@ -1459,76 +1478,58 @@ alert(
 
 </div>
 
-    <div id="popupVendorBaru" class="popup">
+   <div id="popupVendorBaru" class="popup">
 
     <div class="popup-card">
 
         <h2>Vendor Baru</h2>
 
-        <p>
-            Vendor berikut belum terdaftar.
-        </p>
+        <p>Vendor berikut belum terdaftar.</p>
 
-        <input
-            id="vendorBaruNama"
-            readonly>
-
-        <br><br>
+        <label>Nama Vendor</label>
+        <input id="vendorBaruNama" readonly>
 
         <label>Jenis Vendor</label>
-
-        <select
-            id="vendorBaruTipe"
-            onchange="ubahTipeVendor()">
-
-            <option value="REGULER">
-                REGULER
-            </option>
-
-            <option value="NON REGULER">
-                NON REGULER
-            </option>
-
+        <select id="vendorBaruTipe">
+            <option value="REGULER">REGULER</option>
+            <option value="NON REGULER">NON REGULER</option>
         </select>
 
-        <br><br>
-
-        <label>Termin Tagihan</label>
-
+        <label>Termin Penagihan (Opsional)</label>
         <input
-            id="vendorTerminTagihan"
-            type="number">
+        type="number"
+        id="vendorTerminPenagihan">
 
-        <br><br>
-
-        <label>Termin Pembayaran</label>
-
+        <label>Termin Pembayaran (Opsional)</label>
         <input
-            id="vendorTerminPembayaran"
-            type="number">
+        type="number"
+        id="vendorTerminPembayaran">
 
-        <br><br>
+        <label>PIC 1</label>
+        <input id="vendorPIC1">
 
-        <label>PIC</label>
+        <label>No HP PIC 1</label>
+        <input id="vendorTelp1">
 
-        <input
-            id="vendorPIC">
+        <label>PIC 2 (Opsional)</label>
+        <input id="vendorPIC2">
 
-        <br><br>
+        <label>No HP PIC 2 (Opsional)</label>
+        <input id="vendorTelp2">
 
         <button
-            class="btn-green"
-            onclick="simpanVendorBaru()">
+        class="btn-green"
+        onclick="simpanVendorBaru()">
 
-            Simpan Vendor
+        Simpan Vendor
 
         </button>
 
         <button
-            class="btn-red"
-            onclick="tutupPopupVendor()">
+        class="btn-red"
+        onclick="tutupPopupVendor()">
 
-            Batal
+        Batal
 
         </button>
 
