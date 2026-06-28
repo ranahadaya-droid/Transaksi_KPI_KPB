@@ -776,11 +776,22 @@ function hitungTotal(){
 
         return;
 
-    }
+    // isi kembali field vendor
+if(inputVendorAktif){
 
-    alert("Vendor berhasil ditambahkan.");
+    inputVendorAktif.value = nama;
 
 }
+
+// tutup popup
+document
+.getElementById("popupVendorBaru")
+.style.display = "none";
+
+alert("Vendor berhasil ditambahkan.");
+
+// lanjut simpan pengajuan
+simpanPengajuan();
 function previewPengajuan(){
 
     const total =
@@ -1444,6 +1455,14 @@ function lihatPengajuan(){
 alert(
 "Menu laporan akan dibuat pada tahap berikutnya."
 );
+
+}
+
+    function tutupPopupVendor(){
+
+    document
+    .getElementById("popupVendorBaru")
+    .style.display = "none";
 
 }
 </script>
