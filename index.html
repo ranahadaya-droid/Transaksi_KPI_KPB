@@ -412,6 +412,8 @@ let nomorPengajuanGlobal = "";
 
 let totalVendorGlobal = 0;
 
+let inputVendorAktif = null;
+
 let linkFinanceGlobal = "";
 
 let linkTagihanGlobal = "";
@@ -708,6 +710,75 @@ function hitungTotal(){
         "none";
 
     }
+
+}
+
+    async function simpanVendorBaru(){
+
+    const nama =
+    document
+    .getElementById("vendorBaruNama")
+    .value
+    .trim();
+
+    if(nama==""){
+
+        alert("Nama vendor belum diisi.");
+
+        return;
+
+    }
+
+    const tipe =
+    document
+    .getElementById("vendorBaruTipe")
+    .value;
+
+    const terminTagihan =
+    document
+    .getElementById("vendorTerminTagihan")
+    .value;
+
+    const terminPembayaran =
+    document
+    .getElementById("vendorTerminBayar")
+    .value;
+
+    const pic =
+    document
+    .getElementById("vendorPIC")
+    .value;
+
+    const { error } =
+    await sb
+
+    .from("master_vendor")
+
+    .insert([{
+
+        nama_vendor:nama,
+
+        tipe_vendor:tipe,
+
+        termin_tagihan:
+        terminTagihan=="" ? null : Number(terminTagihan),
+
+        termin_pembayaran:
+        terminPembayaran=="" ? null : Number(terminPembayaran),
+
+        pic:pic
+
+    }]);
+
+    if(error){
+
+        alert(error.message);
+
+        return;
+
+    }
+
+    alert("Vendor berhasil ditambahkan.");
 
 }
 function previewPengajuan(){
@@ -1194,13 +1265,13 @@ testSupabase();
     }
 
 }
-    function copyWA(){
+   function copyWA(){
 
     let pesan = "";
 
-    // ==========================
+    // ===========================
     // SALAM
-    // ==========================
+    // ===========================
 
     pesan +=
     getSalam() +
@@ -1209,18 +1280,19 @@ testSupabase();
     pesan +=
     "Mohon supportnya untuk permintaan berikut ini :\n\n";
 
-    // ==========================
-    // PESANAN
-    // ==========================
+    // ===========================
+    // GROUP VENDOR
+    // ===========================
 
-    pesan += "Pesanan :\n";
+    const vendorMap = {};
 
-    document
-    .querySelectorAll(".item")
-    .forEach(item=>{
+    document.querySelectorAll(".item").forEach(item=>{
+
+        const vendor =
+        item.querySelector(".vendor").value.trim();
 
         const barang =
-        item.querySelector(".nama_barang").value;
+        item.querySelector(".nama_barang").value.trim();
 
         const qty =
         item.querySelector(".qty").value;
@@ -1228,103 +1300,136 @@ testSupabase();
         const satuan =
         item.querySelector(".satuan").value;
 
-        pesan +=
-        "- " +
-        barang +
-        " (" +
-        qty +
-        " " +
-        satuan +
-        ")\n";
+        const nominal =
+        Number(
+            item.querySelector(".nominal_tagihan").value || 0
+        );
+
+        if(!vendorMap[vendor]){
+
+            vendorMap[vendor]={
+
+                items:[],
+
+                total:0
+
+            };
+
+        }
+
+        vendorMap[vendor]
+        .items
+        .push(
+            `• ${barang} (${qty} ${satuan})`
+        );
+
+        vendorMap[vendor]
+        .total += nominal;
 
     });
 
-    // ==========================
-    // TOTAL TRANSFER
-    // ==========================
+    // ===========================
+    // CETAK VENDOR
+    // ===========================
 
-    const totalVendor =
-    totalVendorGlobal;
+    let nomor = 1;
 
-    const kesepakatan =
-    Number(
-    document.getElementById("nominal_kesepakatan").value || 0
-    );
+    Object.keys(vendorMap).forEach(vendor=>{
 
-    const admin =
-    Number(
-    document.getElementById("biaya_admin").value || 0
-    );
+        pesan +=
+        nomor +
+        ". " +
+        vendor +
+        "\n\n";
 
-    const totalTransfer =
-    (kesepakatan > 0 ? kesepakatan : totalVendor)
-    +
-    admin;
+        vendorMap[vendor]
+        .items
+        .forEach(x=>{
 
-    pesan += "\n";
+            pesan +=
+            x +
+            "\n\n";
+
+        });
+
+        pesan +=
+        "Total : Rp" +
+        vendorMap[vendor]
+        .total
+        .toLocaleString("id-ID") +
+        "\n\n";
+
+        nomor++;
+
+    });
+
+    // ===========================
+    // TOTAL VENDOR
+    // ===========================
 
     pesan +=
-    "Nominal : Rp" +
-    totalTransfer.toLocaleString("id-ID") +
-    "\n";
-
-    // ==========================
-    // MERCHANT
-    // ==========================
-
-    const vendorPertama =
-    document
-    .querySelector(".vendor")
-    ?.value || "";
+    "━━━━━━━━━━━━━━━━━━━━\n\n";
 
     pesan +=
-    "Merchant : " +
-    vendorPertama +
+    "Total Vendor : Rp" +
+    totalVendorGlobal
+    .toLocaleString("id-ID") +
     "\n\n";
 
-    // ==========================
+    pesan +=
+    "━━━━━━━━━━━━━━━━━━━━\n\n";
+
+    // ===========================
     // REKENING
-    // ==========================
+    // ===========================
 
     pesan +=
     "No. Rekening : " +
     document.getElementById("nomor_rekening").value +
-    "\n";
+    "\n\n";
 
     pesan +=
     "Bank : " +
-    document.getElementById("nama_bank").value +
-    "\n";
+    (
+        document.getElementById("nama_bank").value==="BANK LAIN"
+        ?
+        document.getElementById("bank_lain").value
+        :
+        document.getElementById("nama_bank").value
+    ) +
+    "\n\n";
 
     pesan +=
     "A.n : " +
     document.getElementById("atas_nama").value +
     "\n\n";
 
-    // ==========================
+    // ===========================
     // KEPERLUAN
-    // ==========================
+    // ===========================
 
     pesan +=
-    "Keperluan : " +
+    "Keperluan :\n" +
     document.getElementById("keperluan").value +
     "\n\n";
 
-    // ==========================
-    // STATUS PEMBAYARAN
-    // ==========================
+    // ===========================
+    // STATUS
+    // ===========================
 
     pesan +=
     "💰 Status Pembayaran\n";
 
     pesan +=
-    linkFinanceGlobal;
+    linkFinanceGlobal +
+    "\n\n";
+
+    pesan +=
+    "Terima kasih 🙏🏻";
 
     navigator.clipboard.writeText(pesan);
 
-    alert(
-    "Format WA berhasil disalin."
-    );
+    alert("Format WA berhasil disalin.");
 
 }
 
@@ -1412,6 +1517,83 @@ Batal
 </button>
 
 </div>
+
+</div>
+
+    <div id="popupVendorBaru" class="popup">
+
+    <div class="popup-card">
+
+        <h2>Vendor Baru</h2>
+
+        <p>
+            Vendor berikut belum terdaftar.
+        </p>
+
+        <input
+            id="vendorBaruNama"
+            readonly>
+
+        <br><br>
+
+        <label>Jenis Vendor</label>
+
+        <select
+            id="vendorBaruTipe"
+            onchange="ubahTipeVendor()">
+
+            <option value="REGULER">
+                REGULER
+            </option>
+
+            <option value="NON REGULER">
+                NON REGULER
+            </option>
+
+        </select>
+
+        <br><br>
+
+        <label>Termin Tagihan</label>
+
+        <input
+            id="vendorTerminTagihan"
+            type="number">
+
+        <br><br>
+
+        <label>Termin Pembayaran</label>
+
+        <input
+            id="vendorTerminPembayaran"
+            type="number">
+
+        <br><br>
+
+        <label>PIC</label>
+
+        <input
+            id="vendorPIC">
+
+        <br><br>
+
+        <button
+            class="btn-green"
+            onclick="simpanVendorBaru()">
+
+            Simpan Vendor
+
+        </button>
+
+        <button
+            class="btn-red"
+            onclick="tutupPopupVendor()">
+
+            Batal
+
+        </button>
+
+    </div>
 
 </div>
 </body>
