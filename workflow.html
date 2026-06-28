@@ -346,6 +346,8 @@ params.get("type");
 const token =
 params.get("token");
 
+      console.log("TYPE =", type);
+console.log("TOKEN =", token);
       async function loadData(){
 
     let query =
@@ -379,6 +381,10 @@ console.log(query);
           
     const {data,error} =
     await query.single();
+
+          console.log(data);
+
+console.log(error);
 
     if(error || !data){
 
