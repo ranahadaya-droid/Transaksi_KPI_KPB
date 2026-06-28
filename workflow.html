@@ -517,5 +517,58 @@ html;
 
 async function updateStatus(){
 
+const { error } =
+await query;
+
+if(error){
+
+    alert(error.message);
+
+    return;
+
+}
+
+document
+.getElementById("success")
+.style.display="block";
+
+document
+.getElementById("success")
+.innerHTML=
+`
+<h3>✅ Berhasil</h3>
+
+Status berhasil diperbarui.
+
+<br><br>
+
+Memuat ulang halaman...
+`;
+
+document
+.getElementById("btnUpdate")
+.disabled = true;
+
+setTimeout(()=>{
+
+    location.reload();
+
+},1000);
+
+<div id="statusArea"></div>
+
+<div class="separator"></div>
+
+<h3>AKTIVITAS</h3>
+
+<div id="activityArea">
+
+Loading...
+
+</div>
+
+
+
+
 
 
