@@ -713,13 +713,10 @@ function hitungTotal(){
 
 }
 
-    async function simpanVendorBaru(){
+  async function simpanVendorBaru(){
 
     const nama =
-    document
-    .getElementById("vendorBaruNama")
-    .value
-    .trim();
+    document.getElementById("vendorBaruNama").value.trim();
 
     if(nama==""){
 
@@ -730,35 +727,25 @@ function hitungTotal(){
     }
 
     const tipe =
-    document
-    .getElementById("vendorBaruTipe")
-    .value;
+    document.getElementById("vendorBaruTipe").value;
 
     const terminTagihan =
-    document
-    .getElementById("vendorTerminTagihan")
-    .value;
+    document.getElementById("vendorTerminTagihan").value;
 
     const terminPembayaran =
-    document
-    .getElementById("vendorTerminBayar")
-    .value;
+    document.getElementById("vendorTerminPembayaran").value;
 
     const pic =
-    document
-    .getElementById("vendorPIC")
-    .value;
+    document.getElementById("vendorPIC").value;
 
     const { error } =
     await sb
-
     .from("master_vendor")
-
     .insert([{
 
-        nama_vendor:nama,
+        nama_vendor: nama,
 
-        tipe_vendor:tipe,
+        tipe_vendor: tipe,
 
         termin_tagihan:
         terminTagihan=="" ? null : Number(terminTagihan),
@@ -766,7 +753,7 @@ function hitungTotal(){
         termin_pembayaran:
         terminPembayaran=="" ? null : Number(terminPembayaran),
 
-        pic:pic
+        pic: pic
 
     }]);
 
@@ -776,22 +763,23 @@ function hitungTotal(){
 
         return;
 
-    // isi kembali field vendor
-if(inputVendorAktif){
+    }
 
-    inputVendorAktif.value = nama;
+    if(inputVendorAktif){
+
+        inputVendorAktif.value = nama;
+
+    }
+
+    document
+    .getElementById("popupVendorBaru")
+    .style.display = "none";
+
+    alert("Vendor berhasil ditambahkan.");
+
+    simpanPengajuan();
 
 }
-
-// tutup popup
-document
-.getElementById("popupVendorBaru")
-.style.display = "none";
-
-alert("Vendor berhasil ditambahkan.");
-
-// lanjut simpan pengajuan
-simpanPengajuan();
 function previewPengajuan(){
 
     const total =
@@ -1466,14 +1454,6 @@ alert(
 
 }
 </script>
-
-<button
-class="btn-red"
-onclick="tutupVendorBaru()">
-
-Batal
-
-</button>
 
 </div>
 
