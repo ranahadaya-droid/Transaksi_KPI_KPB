@@ -283,6 +283,7 @@ onclick="simpanPengajuan()">
 Simpan Pengajuan
 
 </button>
+    
 </div>
 
 <div
@@ -810,184 +811,7 @@ btn.innerHTML = "⏳ Menyimpan...";
 
         }
 
-        function copyWA(){
-
-    let pesan = "";
-
-    pesan +=
-`*PENGAJUAN PEMBAYARAN*
-
-`;
-
-    pesan +=
-`No Pengajuan :
-${nomorPengajuanGlobal}
-
-`;
-
-    pesan +=
-`Jenis :
-${document.getElementById("jenis").value}
-
-`;
-
-    pesan +=
-`Klien :
-${document.getElementById("klien").value}
-
-`;
-
-    pesan +=
-`Nama Pengaju :
-${document.getElementById("nama_pengaju").value}
-
-`;
-
-    pesan +=
-`Keperluan :
-${document.getElementById("keperluan").value}
-
-`;
-
-    pesan +=
-`==================================
-
-`;
-
-    pesan +=
-`TRANSFER KE
-
-`;
-
-    pesan +=
-`${document.getElementById("atas_nama").value}
-
-`;
-
-    pesan +=
-`${document.getElementById("nama_bank").value}
-
-`;
-
-    pesan +=
-`${document.getElementById("nomor_rekening").value}
-
-`;
-
-    pesan +=
-`==================================
-
-`;
-
-            document
-.querySelectorAll(".item")
-.forEach((item,index)=>{
-
-pesan +=
-
-`ITEM ${index+1}
-
-`;
-
-pesan +=
-`Vendor :
-${item.querySelector(".vendor").value}
-
-`;
-
-pesan +=
-`Barang :
-${item.querySelector(".nama_barang").value}
-
-`;
-
-pesan +=
-`Qty :
-${item.querySelector(".qty").value}
- ${item.querySelector(".satuan").value}
-
-`;
-
-pesan +=
-`Nominal :
-Rp ${Number(
-item.querySelector(".nominal_tagihan").value||0
-).toLocaleString("id-ID")}
-
-`;
-
-if(item.querySelector(".keterangan").value!=""){
-
-pesan +=
-`Ket :
-${item.querySelector(".keterangan").value}
-
-`;
-
-}
-
-pesan +=
-`------------------------------
-
-`;
-
-});
-
-            pesan +=
-
-`TOTAL TAGIHAN
-
-Rp ${totalVendorGlobal.toLocaleString("id-ID")}
-
-`;
-
-pesan +=
-
-`NOMINAL KESEPAKATAN
-
-Rp ${Number(
-document.getElementById("nominal_kesepakatan").value||0
-).toLocaleString("id-ID")}
-
-`;
-
-pesan +=
-
-`BIAYA ADMIN
-
-Rp ${Number(
-document.getElementById("biaya_admin").value||0
-).toLocaleString("id-ID")}
-
-`;
-
-            pesan +=
-
-`
-
-==================================
-
-🔗 TEAM TAGIHAN
-
-${linkTagihanGlobal}
-
-==================================
-
-💰 FINANCE
-
-${linkFinanceGlobal}
-
-`;
-
-            navigator
-.clipboard
-.writeText(pesan);
-
-alert(
-"Format WA berhasil disalin."
-);
-
-}
+       
 
         if(document.querySelectorAll(".item").length===0){
 
@@ -1021,12 +845,6 @@ alert(
         totalVendorGlobal =
         totalTagihan;
 
-        linkFinanceGlobal =
-        linkFinance;
-
-        linkTagihanGlobal =
-        linkTagihan;
-
         const tokenTagihan =
         crypto.randomUUID();
 
@@ -1046,10 +864,12 @@ BASE_URL +
 "/workflow.html?type=tagihan&token=" +
 tokenTagihan;
 
-        const btn =
-document.querySelector(
-'button[onclick="simpanPengajuan()"]'
-);
+        linkFinanceGlobal =
+linkFinance;
+
+linkTagihanGlobal =
+linkTagihan;
+
 
 btn.disabled=true;
 
@@ -1061,7 +881,7 @@ btn.innerText="Simpan Pengajuan";
 
         btn.disabled=false;
 btn.innerText="Simpan Pengajuan";
-alert(err.message);
+
         // =====================
         // INSERT HEADER
         // =====================
@@ -1249,6 +1069,185 @@ btn.innerHTML = "Simpan Pengajuan";
 
 console.log("TEST SUPABASE DIJALANKAN");
 testSupabase();
+
+     function copyWA(){
+
+    let pesan = "";
+
+    pesan +=
+`*PENGAJUAN PEMBAYARAN*
+
+`;
+
+    pesan +=
+`No Pengajuan :
+${nomorPengajuanGlobal}
+
+`;
+
+    pesan +=
+`Jenis :
+${document.getElementById("jenis").value}
+
+`;
+
+    pesan +=
+`Klien :
+${document.getElementById("klien").value}
+
+`;
+
+    pesan +=
+`Nama Pengaju :
+${document.getElementById("nama_pengaju").value}
+
+`;
+
+    pesan +=
+`Keperluan :
+${document.getElementById("keperluan").value}
+
+`;
+
+    pesan +=
+`==================================
+
+`;
+
+    pesan +=
+`TRANSFER KE
+
+`;
+
+    pesan +=
+`${document.getElementById("atas_nama").value}
+
+`;
+
+    pesan +=
+`${document.getElementById("nama_bank").value}
+
+`;
+
+    pesan +=
+`${document.getElementById("nomor_rekening").value}
+
+`;
+
+    pesan +=
+`==================================
+
+`;
+
+            document
+.querySelectorAll(".item")
+.forEach((item,index)=>{
+
+pesan +=
+
+`ITEM ${index+1}
+
+`;
+
+pesan +=
+`Vendor :
+${item.querySelector(".vendor").value}
+
+`;
+
+pesan +=
+`Barang :
+${item.querySelector(".nama_barang").value}
+
+`;
+
+pesan +=
+`Qty :
+${item.querySelector(".qty").value}
+ ${item.querySelector(".satuan").value}
+
+`;
+
+pesan +=
+`Nominal :
+Rp ${Number(
+item.querySelector(".nominal_tagihan").value||0
+).toLocaleString("id-ID")}
+
+`;
+
+if(item.querySelector(".keterangan").value!=""){
+
+pesan +=
+`Ket :
+${item.querySelector(".keterangan").value}
+
+`;
+
+}
+
+pesan +=
+`------------------------------
+
+`;
+
+});
+
+            pesan +=
+
+`TOTAL TAGIHAN
+
+Rp ${totalVendorGlobal.toLocaleString("id-ID")}
+
+`;
+
+pesan +=
+
+`NOMINAL KESEPAKATAN
+
+Rp ${Number(
+document.getElementById("nominal_kesepakatan").value||0
+).toLocaleString("id-ID")}
+
+`;
+
+pesan +=
+
+`BIAYA ADMIN
+
+Rp ${Number(
+document.getElementById("biaya_admin").value||0
+).toLocaleString("id-ID")}
+
+`;
+
+            pesan +=
+
+`
+
+==================================
+
+🔗 TEAM TAGIHAN
+
+${linkTagihanGlobal}
+
+==================================
+
+💰 FINANCE
+
+${linkFinanceGlobal}
+
+`;
+
+            navigator
+.clipboard
+.writeText(pesan);
+
+alert(
+"Format WA berhasil disalin."
+);
+
+}
 
      function inputBaru(){
 
