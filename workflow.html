@@ -530,6 +530,80 @@ loadData();
 
     }
 
+          // ============================
+// CEK STATUS TERBARU
+// ============================
+
+let cek =
+sb
+.from("pengajuan_header")
+.select("*");
+
+if(type=="finance"){
+
+    cek =
+    cek.eq(
+        "token_finance",
+        token
+    );
+
+}else{
+
+    cek =
+    cek.eq(
+        "token_tagihan",
+        token
+    );
+
+}
+
+const {
+data,
+error
+}
+=
+await cek.single();
+
+if(error){
+
+    alert(error.message);
+
+    return;
+
+}
+
+          // ============================
+// SUDAH PERNAH UPDATE?
+// ============================
+
+if(
+type=="finance"
+&&
+data.status_finance=="SUDAH"
+){
+
+    alert(
+    "Status pembayaran sudah pernah diperbarui."
+    );
+
+    return;
+
+}
+
+if(
+type=="tagihan"
+&&
+data.status_tagihan=="SUDAH"
+){
+
+    alert(
+    "Status penagihan sudah pernah diperbarui."
+    );
+
+    return;
+
+}
+
     let updateData = {};
 
     if(type=="finance"){
@@ -567,21 +641,31 @@ loadData();
 
     if(type=="finance"){
 
-        query =
-        query.eq(
-            "token_finance",
-            token
-        );
+    query =
+    query
+    .eq(
+        "token_finance",
+        token
+    )
+    .eq(
+        "status_finance",
+        "BELUM"
+    );
 
-    }else{
+}else{
 
-        query =
-        query.eq(
-            "token_tagihan",
-            token
-        );
+    query =
+    query
+    .eq(
+        "token_tagihan",
+        token
+    )
+    .eq(
+        "status_tagihan",
+        "BELUM"
+    );
 
-    }
+}
 
     const {error} =
     await query;
