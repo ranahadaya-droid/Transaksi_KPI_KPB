@@ -1294,7 +1294,6 @@ testSupabase();
     pesan +=
     getSalam() +
     " mba @BFP Mbak Rima, mba @BFP Mbak Heva dan mba @BFP Mbak Rana\n\n";
-
     pesan +=
     "Mohon supportnya untuk permintaan berikut ini :\n\n";
 
@@ -1311,16 +1310,13 @@ testSupabase();
 
         const barang =
         item.querySelector(".nama_barang").value.trim();
-
         const qty =
         item.querySelector(".qty").value;
-
         const satuan =
         item.querySelector(".satuan").value;
-
         const nominal =
         Number(
-            item.querySelector(".nominal_tagihan").value || 0
+        item.querySelector(".nominal_tagihan").value || 0
         );
 
         if(!vendorMap[vendor]){
@@ -1405,7 +1401,6 @@ testSupabase();
     "No. Rekening : " +
     document.getElementById("nomor_rekening").value +
     "\n\n";
-
     pesan +=
     "Bank : " +
     (
@@ -1416,7 +1411,6 @@ testSupabase();
         document.getElementById("nama_bank").value
     ) +
     "\n\n";
-
     pesan +=
     "A.n : " +
     document.getElementById("atas_nama").value +
