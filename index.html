@@ -1116,197 +1116,137 @@ testSupabase();
     }
 
 }
-     function copyWA(){
+    function copyWA(){
 
     let pesan = "";
 
-    pesan +=
-getSalam() +
-" mba @BFP Mbak Rima, mba @BFP Mbak Heva dan mba @BFP Mbak Rana\n\n";
-
-pesan +=
-"Mohon supportnya untuk permintaan berikut ini :\n\n";
+    // ==========================
+    // SALAM
+    // ==========================
 
     pesan +=
-`No Pengajuan :
-${nomorPengajuanGlobal}
-`;
-    pesan +=
-`Jenis :
-${document.getElementById("jenis").value}
-`;
-    pesan +=
-`Klien :
-${document.getElementById("klien").value}
-`;
-    pesan +=
-`Nama Pengaju :
-${document.getElementById("nama_pengaju").value}
-`;
+    getSalam() +
+    " mba @BFP Mbak Rima, mba @BFP Mbak Heva dan mba @BFP Mbak Rana\n\n";
 
     pesan +=
-`Keperluan :
-${document.getElementById("keperluan").value}
+    "Mohon supportnya untuk permintaan berikut ini :\n\n";
 
-`;
+    // ==========================
+    // PESANAN
+    // ==========================
+
+    pesan += "Pesanan :\n";
+
+    document
+    .querySelectorAll(".item")
+    .forEach(item=>{
+
+        const barang =
+        item.querySelector(".nama_barang").value;
+
+        const qty =
+        item.querySelector(".qty").value;
+
+        const satuan =
+        item.querySelector(".satuan").value;
+
+        pesan +=
+        "- " +
+        barang +
+        " (" +
+        qty +
+        " " +
+        satuan +
+        ")\n";
+
+    });
+
+    // ==========================
+    // TOTAL TRANSFER
+    // ==========================
+
+    const totalVendor =
+    totalVendorGlobal;
+
+    const kesepakatan =
+    Number(
+    document.getElementById("nominal_kesepakatan").value || 0
+    );
+
+    const admin =
+    Number(
+    document.getElementById("biaya_admin").value || 0
+    );
+
+    const totalTransfer =
+    (kesepakatan > 0 ? kesepakatan : totalVendor)
+    +
+    admin;
+
+    pesan += "\n";
 
     pesan +=
-`==================================
+    "Nominal : Rp" +
+    totalTransfer.toLocaleString("id-ID") +
+    "\n";
 
-`;
+    // ==========================
+    // MERCHANT
+    // ==========================
 
-    pesan +=
-`TRANSFER KE
-
-`;
-
-    pesan +=
-`${document.getElementById("atas_nama").value}
-
-`;
-
-    pesan +=
-`${document.getElementById("nama_bank").value}
-
-`;
+    const vendorPertama =
+    document
+    .querySelector(".vendor")
+    ?.value || "";
 
     pesan +=
-`${document.getElementById("nomor_rekening").value}
+    "Merchant : " +
+    vendorPertama +
+    "\n\n";
 
-`;
+    // ==========================
+    // REKENING
+    // ==========================
 
     pesan +=
-`==================================
+    "No. Rekening : " +
+    document.getElementById("nomor_rekening").value +
+    "\n";
 
-`;
+    pesan +=
+    "Bank : " +
+    document.getElementById("nama_bank").value +
+    "\n";
 
-            document
-.querySelectorAll(".item")
-.forEach((item,index)=>{
+    pesan +=
+    "A.n : " +
+    document.getElementById("atas_nama").value +
+    "\n\n";
 
-pesan +=
+    // ==========================
+    // KEPERLUAN
+    // ==========================
 
-`ITEM ${index+1}
+    pesan +=
+    "Keperluan : " +
+    document.getElementById("keperluan").value +
+    "\n\n";
 
-`;
+    // ==========================
+    // STATUS PEMBAYARAN
+    // ==========================
 
-pesan +=
-`Vendor :
-${item.querySelector(".vendor").value}
+    pesan +=
+    "💰 Status Pembayaran\n";
 
-`;
+    pesan +=
+    linkFinanceGlobal;
 
-pesan +=
-`Barang :
-${item.querySelector(".nama_barang").value}
+    navigator.clipboard.writeText(pesan);
 
-`;
-
-pesan +=
-`Qty :
-${item.querySelector(".qty").value}
- ${item.querySelector(".satuan").value}
-
-`;
-
-pesan +=
-`Nominal :
-Rp ${Number(
-item.querySelector(".nominal_tagihan").value||0
-).toLocaleString("id-ID")}
-
-`;
-
-if(item.querySelector(".keterangan").value!=""){
-
-pesan +=
-`Ket :
-${item.querySelector(".keterangan").value}
-
-`;
-
-}
-
-pesan +=
-`------------------------------
-
-`;
-
-});
-
-     const totalVendor =
-totalVendorGlobal;
-
-const kesepakatan =
-Number(
-document.getElementById("nominal_kesepakatan").value||0
-);
-
-const admin =
-Number(
-document.getElementById("biaya_admin").value||0
-);
-
-const totalTransfer =
-(kesepakatan>0?kesepakatan:totaltransfer)
-+
-admin;
-
-         pesan +=
-`
---------------------------------
-
-Total Vendor :
-Rp ${totalVendor.toLocaleString("id-ID")}
-`;
-
-if(kesepakatan>0){
-
-pesan +=
-`
-Nominal Kesepakatan :
-Rp ${kesepakatan.toLocaleString("id-ID")}
-`;
-
-}
-
-pesan +=
-`
-Biaya Admin :
-Rp ${admin.toLocaleString("id-ID")}
-
-==============================
-
-TOTAL TRANSFER :
-Rp ${totalTransfer.toLocaleString("id-ID")}
-
-`;
-
-            pesan +=
-
-`
-
-==================================
-
-🔗 TEAM TAGIHAN
-
-${linkTagihanGlobal}
-
-==================================
-
-💰 FINANCE
-
-${linkFinanceGlobal}
-
-`;
-
-            navigator
-.clipboard
-.writeText(pesan);
-
-alert(
-"Format WA berhasil disalin."
-);
+    alert(
+    "Format WA berhasil disalin."
+    );
 
 }
 
