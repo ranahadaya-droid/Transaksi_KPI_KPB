@@ -165,7 +165,6 @@ margin:15px 0;
 <input id="nomor_rekening">
 
 <label>Nama Bank</label>
-<label>Nama Bank</label>
 
 <select
 id="nama_bank"
@@ -275,9 +274,8 @@ onclick="previewPengajuan()">
 
 Preview Pengajuan
 
-</button>
-
 <button
+id="btnSimpan"
 type="button"
 class="btn-green"
 onclick="simpanPengajuan()">
@@ -297,7 +295,75 @@ style="display:none">
 <div id="previewData"></div>
 
 </div>
+<div id="popupSukses" class="popup">
 
+<div class="popup-card">
+
+<h2>✅ Berhasil</h2>
+
+<p>
+Pengajuan berhasil disimpan
+</p>
+
+<hr>
+
+<b>No Pengajuan</b>
+
+<h3 id="popupNo"></h3>
+
+<hr>
+
+<p>
+
+<b>Total Vendor</b><br>
+
+<span id="popupVendor"></span>
+
+</p>
+
+<p>
+
+<b>Nominal Kesepakatan</b><br>
+
+<span id="popupKesepakatan"></span>
+
+</p>
+
+<p>
+
+<b>Biaya Admin</b><br>
+
+<span id="popupAdmin"></span>
+
+</p>
+
+<button
+class="btn-green"
+onclick="copyWA()">
+
+📋 Copy Format WA
+
+</button>
+
+<button
+class="btn-green"
+onclick="lihatPengajuan()">
+
+🧾 Lihat Pengajuan
+
+</button>
+
+<button
+class="btn-red"
+onclick="inputBaru()">
+
+➕ Input Pengajuan Baru
+
+</button>
+
+</div>
+
+</div>
 <script>
 
 /*    
@@ -335,6 +401,19 @@ async function testSupabase(){
 }
 
 console.log("VERSI TERBARU 01");
+
+    //==============================
+// GLOBAL VARIABLE
+//==============================
+
+let nomorPengajuanGlobal = "";
+
+let totalVendorGlobal = 0;
+
+let linkFinanceGlobal = "";
+
+let linkTagihanGlobal = "";
+
 
 function tambahItem(){
 
@@ -456,14 +535,32 @@ function tambahItem(){
 
 function hapusItem(id){
 
-    let item =
-    document.getElementById(
-        "item_" + id
-    );
+    const item =
+    document.getElementById("item_"+id);
 
     if(item){
 
         item.remove();
+
+    }
+
+    if(document.querySelectorAll(".item").length===0){
+
+        document.getElementById("detailContainer").innerHTML=`
+
+        <div id="kosong">
+
+        Belum ada item pengajuan
+
+        <br><br>
+
+        Klik tombol
+
+        <b>+ Tambah Item</b>
+
+        </div>
+
+        `;
 
     }
 
@@ -634,6 +731,13 @@ function previewPengajuan(){
     const klien =
     document.getElementById("klien").value;
 
+        if(klien==""){
+
+        alert("Pilih Klien terlebih dahulu.");
+
+        return;
+
+    }
     const now = new Date();
 
     const tahun =
@@ -680,6 +784,218 @@ async function simpanPengajuan(){
 
     try{
 
+        const btn =
+document.getElementById("btnSimpan");
+
+btn.disabled = true;
+
+btn.innerHTML = "⏳ Menyimpan...";
+          // =====================
+        // VALIDASI
+        // =====================
+
+        if(document.getElementById("jenis").value==""){
+
+            alert("Pilih Jenis Pengajuan.");
+
+            return;
+
+        }
+
+        if(document.getElementById("klien").value==""){
+
+            alert("Pilih Klien.");
+
+            return;
+
+        }
+
+        function copyWA(){
+
+    let pesan = "";
+
+    pesan +=
+`*PENGAJUAN PEMBAYARAN*
+
+`;
+
+    pesan +=
+`No Pengajuan :
+${nomorPengajuanGlobal}
+
+`;
+
+    pesan +=
+`Jenis :
+${document.getElementById("jenis").value}
+
+`;
+
+    pesan +=
+`Klien :
+${document.getElementById("klien").value}
+
+`;
+
+    pesan +=
+`Nama Pengaju :
+${document.getElementById("nama_pengaju").value}
+
+`;
+
+    pesan +=
+`Keperluan :
+${document.getElementById("keperluan").value}
+
+`;
+
+    pesan +=
+`==================================
+
+`;
+
+    pesan +=
+`TRANSFER KE
+
+`;
+
+    pesan +=
+`${document.getElementById("atas_nama").value}
+
+`;
+
+    pesan +=
+`${document.getElementById("nama_bank").value}
+
+`;
+
+    pesan +=
+`${document.getElementById("nomor_rekening").value}
+
+`;
+
+    pesan +=
+`==================================
+
+`;
+
+            document
+.querySelectorAll(".item")
+.forEach((item,index)=>{
+
+pesan +=
+
+`ITEM ${index+1}
+
+`;
+
+pesan +=
+`Vendor :
+${item.querySelector(".vendor").value}
+
+`;
+
+pesan +=
+`Barang :
+${item.querySelector(".nama_barang").value}
+
+`;
+
+pesan +=
+`Qty :
+${item.querySelector(".qty").value}
+ ${item.querySelector(".satuan").value}
+
+`;
+
+pesan +=
+`Nominal :
+Rp ${Number(
+item.querySelector(".nominal_tagihan").value||0
+).toLocaleString("id-ID")}
+
+`;
+
+if(item.querySelector(".keterangan").value!=""){
+
+pesan +=
+`Ket :
+${item.querySelector(".keterangan").value}
+
+`;
+
+}
+
+pesan +=
+`------------------------------
+
+`;
+
+});
+
+            pesan +=
+
+`TOTAL TAGIHAN
+
+Rp ${totalVendorGlobal.toLocaleString("id-ID")}
+
+`;
+
+pesan +=
+
+`NOMINAL KESEPAKATAN
+
+Rp ${Number(
+document.getElementById("nominal_kesepakatan").value||0
+).toLocaleString("id-ID")}
+
+`;
+
+pesan +=
+
+`BIAYA ADMIN
+
+Rp ${Number(
+document.getElementById("biaya_admin").value||0
+).toLocaleString("id-ID")}
+
+`;
+
+            pesan +=
+
+`
+
+==================================
+
+🔗 TEAM TAGIHAN
+
+${linkTagihanGlobal}
+
+==================================
+
+💰 FINANCE
+
+${linkFinanceGlobal}
+
+`;
+
+            navigator
+.clipboard
+.writeText(pesan);
+
+alert(
+"Format WA berhasil disalin."
+);
+
+}
+
+        if(document.querySelectorAll(".item").length===0){
+
+            alert("Silakan tambah minimal 1 item.");
+
+            return;
+
+        }
         // =====================
         // HITUNG TOTAL TAGIHAN
         // =====================
@@ -695,21 +1011,21 @@ async function simpanPengajuan(){
 
         });
 
-        function inputBaru(){
-
-location.reload();
-
-}
-
-function lihatPengajuan(){
-
-alert(
-"Menu laporan akan dibuat pada tahap berikutnya."
-);
-
-}
+       
         const nomorPengajuan =
         await generateNomorPengajuan();
+
+        nomorPengajuanGlobal =
+        nomorPengajuan;
+
+        totalVendorGlobal =
+        totalTagihan;
+
+        linkFinanceGlobal =
+        linkFinance;
+
+        linkTagihanGlobal =
+        linkTagihan;
 
         const tokenTagihan =
         crypto.randomUUID();
@@ -729,6 +1045,23 @@ const linkTagihan =
 BASE_URL +
 "/workflow.html?type=tagihan&token=" +
 tokenTagihan;
+
+        const btn =
+document.querySelector(
+'button[onclick="simpanPengajuan()"]'
+);
+
+btn.disabled=true;
+
+btn.innerText="Menyimpan...";
+
+        btn.disabled=false;
+
+btn.innerText="Simpan Pengajuan";
+
+        btn.disabled=false;
+btn.innerText="Simpan Pengajuan";
+alert(err.message);
         // =====================
         // INSERT HEADER
         // =====================
@@ -788,13 +1121,17 @@ tokenTagihan;
         .select()
         .single();
 
-        if(headerError){
+       if(headerError){
 
-            alert(headerError.message);
+    btn.disabled = false;
 
-            return;
+    btn.innerHTML = "Simpan Pengajuan";
 
-        }
+    alert(headerError.message);
+
+    return;
+
+}
 
         const headerId =
         headerData.id;
@@ -851,11 +1188,15 @@ tokenTagihan;
 
         if(detailError){
 
-            alert(detailError.message);
+    btn.disabled = false;
 
-            return;
+    btn.innerHTML = "Simpan Pengajuan";
 
-        }
+    alert(detailError.message);
+
+    return;
+
+}
 
        document
 .getElementById("popupNo")
@@ -888,86 +1229,41 @@ document
 .getElementById("popupSukses")
 .style.display="flex";
 
+        btn.disabled = false;
+
+btn.innerHTML = "Simpan Pengajuan";
     }catch(err){
 
-        alert(err.message);
+    const btn =
+    document.getElementById("btnSimpan");
 
-    }
+    btn.disabled = false;
+
+    btn.innerHTML = "Simpan Pengajuan";
+
+    alert(err.message);
+
+}
 
 }
 
 console.log("TEST SUPABASE DIJALANKAN");
 testSupabase();
-    
+
+     function inputBaru(){
+
+location.reload();
+
+}
+
+function lihatPengajuan(){
+
+alert(
+"Menu laporan akan dibuat pada tahap berikutnya."
+);
+
+}
 </script>
-<div id="popupSukses" class="popup">
 
-<div class="popup-card">
-
-<h2>✅ Berhasil</h2>
-
-<p>
-Pengajuan berhasil disimpan
-</p>
-
-<hr>
-
-<b>No Pengajuan</b>
-
-<h3 id="popupNo"></h3>
-
-<hr>
-
-<p>
-
-<b>Total Vendor</b><br>
-
-<span id="popupVendor"></span>
-
-</p>
-
-<p>
-
-<b>Nominal Kesepakatan</b><br>
-
-<span id="popupKesepakatan"></span>
-
-</p>
-
-<p>
-
-<b>Biaya Admin</b><br>
-
-<span id="popupAdmin"></span>
-
-</p>
-
-<button
-class="btn-green"
-onclick="copyWA()">
-
-📋 Copy Format WA
-
-</button>
-
-<button
-class="btn-green"
-onclick="lihatPengajuan()">
-
-🧾 Lihat Pengajuan
-
-</button>
-
-<button
-class="btn-red"
-onclick="inputBaru()">
-
-➕ Input Pengajuan Baru
-
-</button>
-
-</div>
-
-</div>
 </body>
 </html>
