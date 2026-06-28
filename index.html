@@ -274,6 +274,8 @@ onclick="previewPengajuan()">
 
 Preview Pengajuan
 
+</button>
+
 <button
 id="btnSimpan"
 type="button"
@@ -411,8 +413,6 @@ console.log("VERSI TERBARU 01");
 let nomorPengajuanGlobal = "";
 
 let totalVendorGlobal = 0;
-
-let inputVendorAktif = null;
 
 let linkFinanceGlobal = "";
 
@@ -656,9 +656,7 @@ function hitungTotal(){
 
 }
 
-    function toggleBankLain(){
-
-        function ubahTipeVendor(){
+    function ubahTipeVendor(){
 
     const tipe =
     document
@@ -685,6 +683,8 @@ function hitungTotal(){
     disabled;
 
 }
+
+    function toggleBankLain(){
 
     const bank =
     document.getElementById(
@@ -1447,66 +1447,6 @@ alert(
 
 }
 </script>
-
-    <div id="popupVendorBaru" class="popup">
-
-<div class="popup-card">
-
-<h2>Vendor Baru</h2>
-
-<p>
-Vendor belum terdaftar.
-</p>
-
-<label>Nama Vendor</label>
-
-<input
-id="vendorBaruNama">
-
-<label>Tipe Vendor</label>
-
-<select
-id="vendorBaruTipe"
-onchange="ubahTipeVendor()">
-
-<option value="REGULER">
-
-REGULER
-
-</option>
-
-<option value="NON REGULER">
-
-NON REGULER
-
-</option>
-
-</select>
-
-<label>Termin Tagihan</label>
-
-<input
-type="number"
-id="vendorTerminTagihan">
-
-<label>Termin Pembayaran</label>
-
-<input
-type="number"
-id="vendorTerminBayar">
-
-<label>PIC</label>
-
-<input
-id="vendorPIC">
-
-<button
-class="btn-green"
-onclick="simpanVendorBaru()">
-
-Simpan Vendor
-
-</button>
 
 <button
 class="btn-red"
