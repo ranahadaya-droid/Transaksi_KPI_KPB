@@ -1,112 +1,141 @@
-<!DOCTYPE html>
-<html lang="id">
-
-<head>
-
-<meta charset="UTF-8">
-
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1">
-
-<title>
-
-Payment Workflow
-
-</title>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<style>
-
 body{
 
     margin:0;
-
     padding:20px;
-
-    background:#f5f5f5;
-
-    font-family:Arial,sans-serif;
+    background:#eef2f7;
+    font-family:Segoe UI,Arial,sans-serif;
 
 }
 
 .card{
 
-    max-width:600px;
-
+    max-width:650px;
     margin:auto;
+    background:#fff;
+    border-radius:14px;
+    box-shadow:0 5px 20px rgba(0,0,0,.12);
+    overflow:hidden;
 
-    background:white;
+}
 
-    border-radius:10px;
+.header{
+
+    background:#1565c0;
+    color:white;
+    padding:18px;
+    text-align:center;
+    font-size:22px;
+    font-weight:bold;
+
+}
+
+.content{
 
     padding:20px;
 
-    box-shadow:0 2px 8px rgba(0,0,0,.15);
-
 }
 
-h2{
+.section{
 
-    text-align:center;
-
-    color:#1976d2;
-
-}
-
-hr{
-
-    margin:15px 0;
-
-}
-
-.row{
-
-    margin-bottom:12px;
+    margin-bottom:18px;
 
 }
 
 .label{
 
-    font-weight:bold;
-
-    color:#555;
+    font-size:13px;
+    color:#666;
+    margin-bottom:4px;
 
 }
 
 .value{
 
-    margin-top:4px;
-
-    font-size:16px;
+    font-size:17px;
+    font-weight:600;
+    color:#222;
 
 }
 
-.radio{
+.separator{
 
-    margin-top:20px;
+    border-top:1px solid #e5e5e5;
+    margin:18px 0;
+
+}
+
+.total-box{
+
+    background:#f8f9fa;
+    padding:14px;
+    border-radius:10px;
+    text-align:center;
+
+}
+
+.total-title{
+
+    color:#666;
+    font-size:14px;
+
+}
+
+.total-value{
+
+    font-size:26px;
+    font-weight:bold;
+    color:#1565c0;
+
+}
+
+#detailVendor{
+
+    margin-top:15px;
+
+}
+
+.vendor-card{
+
+    background:#fafafa;
+    border-radius:10px;
+    padding:12px;
+    margin-bottom:12px;
+    border-left:4px solid #1565c0;
+
+}
+
+.vendor-title{
+
+    font-weight:bold;
+    font-size:17px;
+    margin-bottom:8px;
+
+}
+
+.item{
+
+    margin-left:10px;
+    margin-bottom:6px;
+
+}
+
+.vendor-total{
+
+    margin-top:10px;
+    font-weight:bold;
+    color:#1565c0;
 
 }
 
 button{
 
     width:100%;
-
-    padding:12px;
-
-    margin-top:20px;
-
+    padding:14px;
     border:none;
-
-    border-radius:6px;
-
+    border-radius:8px;
     background:#2e7d32;
-
     color:white;
-
     font-size:16px;
-
     cursor:pointer;
 
 }
@@ -119,114 +148,112 @@ button:hover{
 
 .success{
 
-    display:none;
-
-    margin-top:20px;
-
     text-align:center;
-
     color:green;
-
     font-weight:bold;
-
-    font-size:18px;
+    margin-top:15px;
 
 }
 
 .error{
 
-    display:none;
-
-    margin-top:20px;
-
     text-align:center;
-
     color:red;
-
     font-weight:bold;
+    margin-top:15px;
 
 }
 
-</style>
-
-</head>
-
-<body>
-
 <div class="card">
 
-<h2>
+<div class="header">
 
 PAYMENT WORKFLOW
 
-</h2>
+</div>
 
-<hr>
+<div class="content">
 
-<div class="row">
+<div class="section">
 
 <div class="label">
-
 No Pengajuan
-
 </div>
 
-<div
-id="no_pengajuan"
-class="value">
-
+<div id="no_pengajuan" class="value">
 -
-
 </div>
 
 </div>
 
-<div class="row">
+<div class="separator"></div>
+
+<div class="section">
 
 <div class="label">
-
-Jenis
-
-</div>
-
-<div
-id="jenis"
-class="value">
-
--
-
-</div>
-
-</div>
-
-<div class="row">
-
-<div class="label">
-
 Klien
+</div>
+
+<div id="klien" class="value">
+-
+</div>
+
+</div>
+
+<div class="section">
+
+<div class="label">
+Jenis
+</div>
+
+<div id="jenis" class="value">
+-
+</div>
+
+</div>
+
+<div class="separator"></div>
+
+<h3>DETAIL PEMBELIAN</h3>
+
+<div id="detailVendor">
+
+Loading...
+
+</div>
+
+<div class="separator"></div>
+
+<div class="total-box">
+
+<div class="total-title">
+
+TOTAL VENDOR
 
 </div>
 
 <div
-id="klien"
-class="value">
+id="nominal_tagihan"
+class="total-value">
 
--
-
-</div>
+Rp0
 
 </div>
 
-<div class="row">
+</div>
+
+<div class="separator"></div>
+
+<div class="section">
 
 <div class="label">
 
-Atas Nama
+No Rekening
 
 </div>
 
 <div
-id="atas_nama"
+id="nomor_rekening"
 class="value">
 
 -
@@ -235,7 +262,7 @@ class="value">
 
 </div>
 
-<div class="row">
+<div class="section">
 
 <div class="label">
 
@@ -253,16 +280,16 @@ class="value">
 
 </div>
 
-<div class="row">
+<div class="section">
 
 <div class="label">
 
-Nomor Rekening
+Atas Nama
 
 </div>
 
 <div
-id="nomor_rekening"
+id="atas_nama"
 class="value">
 
 -
@@ -271,32 +298,29 @@ class="value">
 
 </div>
 
-<div class="row">
+<div class="separator"></div>
+
+<div class="section">
 
 <div class="label">
 
-Total Tagihan
+Keperluan
 
 </div>
 
 <div
-id="nominal_tagihan"
+id="keperluan"
 class="value">
 
-Rp 0
+-
 
 </div>
 
 </div>
 
-<hr>
+<div class="separator"></div>
 
-<div
-id="statusArea">
-
-<!-- Radio Button muncul di Part 3 -->
-
-</div>
+id="statusArea"></div>
 
 <button
 id="btnUpdate"
@@ -308,282 +332,25 @@ UPDATE STATUS
 
 <div
 id="success"
-class="success">
-
-✅ Status berhasil diperbarui.
-
-</div>
+class="success"></div>
 
 <div
 id="error"
-class="error">
-
-❌ Link tidak valid.
+class="error"></div>
 
 </div>
 
 </div>
 
-  <script>
-
-const sb =
-window.supabase.createClient(
-
-"https://dwfkjlcmjnbhuieqkpkl.supabase.co",
-
-"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR3ZmtqbGNtam5iaHVpZXFrcGtsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIzNjY3ODksImV4cCI6MjA5Nzk0Mjc4OX0.QjjXjImFkFpUWaAY-uMdX5gNi7k8xUl11YGlBe0CVsQ"
-
-);
-
-const params =
-new URLSearchParams(
-window.location.search
-);
-
-const type =
-params.get("type");
-
-const token =
-params.get("token");
-
-      if(!type || !token){
-
-    alert("URL tidak valid.");
-
-    throw new Error("Parameter URL kosong");
-
-}
-
-      console.log("TYPE =", type);
-console.log("TOKEN =", token);
-      async function loadData(){
-
-    let query =
-    sb
-    .from("pengajuan_header")
-    .select("*");
-
-    if(type=="finance"){
-
-        query =
-        query.eq(
-            "token_finance",
-            token
-        );
-
-    }else{
-
-        query =
-        query.eq(
-            "token_tagihan",
-            token
-        );
-
-    }
-
-          console.log("TYPE :", type);
-
-console.log("TOKEN :", token);
-
-console.log(query);
-          
-   const { data, error } =
-await query.maybeSingle();
-
-console.log("HASIL :", data);
-console.log("ERROR :", error);
-
-console.log(error);
-
-    if(error || !data){
-
-        document
-        .getElementById("error")
-        .style.display="block";
-
-        document
-        .getElementById("btnUpdate")
-        .style.display="none";
-
-        console.log(error);
-
-        return;
-
-    }
-
-    document.getElementById("no_pengajuan").innerText =
-    data.no_pengajuan;
-
-    document.getElementById("jenis").innerText =
-    data.jenis;
-
-    document.getElementById("klien").innerText =
-    data.klien;
-
-    document.getElementById("atas_nama").innerText =
-    data.atas_nama;
-
-    document.getElementById("nama_bank").innerText =
-    data.nama_bank;
-
-    document.getElementById("nomor_rekening").innerText =
-    data.nomor_rekening;
-
-    document.getElementById("nominal_tagihan").innerText =
-    "Rp " +
-    Number(data.nominal_tagihan)
-    .toLocaleString("id-ID");
-
-          let html = "";
-
-if(type=="finance"){
-
-    if(data.status_finance=="SUDAH"){
-
-        html = `
-
-        <div class="success" style="display:block">
-
-        ✅ Pembayaran sudah dilakukan
-
-        <br><br>
-
-        Tanggal Bayar
-
-        <br>
-
-        ${data.tanggal_bayar}
-
-        </div>
-
-        `;
-
-        document
-        .getElementById("btnUpdate")
-        .style.display="none";
-
-    }else{
-
-        html = `
-
-        <label>
-
-        <input
-        type="radio"
-        name="status"
-        value="SUDAH">
-
-        Sudah Dibayar
-
-        </label>
-
-        `;
-
-    }
-
-}else{
-
-    if(data.status_tagihan=="SUDAH"){
-
-        html = `
-
-        <div class="success" style="display:block">
-
-        ✅ Sudah Ditagihkan
-
-        <br><br>
-
-        Tanggal Tagih
-
-        <br>
-
-        ${data.tanggal_tagih}
-
-        </div>
-
-        `;
-
-        document
-        .getElementById("btnUpdate")
-        .style.display="none";
-
-    }else{
-
-        html = `
-
-        <label>
-
-        <input
-        type="radio"
-        name="status"
-        value="SUDAH">
-
-        Sudah Ditagihkan
-
-        </label>
-
-        `;
-
-    }
-
-}
-
-document
-.getElementById("statusArea")
-.innerHTML = html;
-
-}
-
-loadData();
-
-      async function updateStatus(){
-
-    const radio =
-    document.querySelector(
-    'input[name="status"]:checked'
-    );
-
-    if(!radio){
-
-        alert("Pilih status.");
-
-        return;
-
-    }
-
-          // ============================
-// CEK STATUS TERBARU
-// ============================
-
-let cek =
-sb
-.from("pengajuan_header")
-.select("*");
-
-if(type=="finance"){
-
-    cek =
-    cek.eq(
-        "token_finance",
-        token
-    );
-
-}else{
-
-    cek =
-    cek.eq(
-        "token_tagihan",
-        token
-    );
-
-}
-
-const {
-data,
-error
-}
-=
-await cek.single();
+document.getElementById("nominal_tagihan").innerText =
+"Rp " +
+Number(data.nominal_tagihan)
+.toLocaleString("id-ID");
+
+await loadDetail(data.id);
+
+const { error } =
+await query;
 
 if(error){
 
@@ -593,124 +360,162 @@ if(error){
 
 }
 
-          // ============================
-// SUDAH PERNAH UPDATE?
-// ============================
+document
+.getElementById("success")
+.style.display="block";
 
-if(
-type=="finance"
-&&
-data.status_finance=="SUDAH"
-){
+document
+.getElementById("success")
+.innerHTML=
+`
+<h3>✅ Berhasil</h3>
 
-    alert(
-    "Status pembayaran sudah pernah diperbarui."
-    );
+Status berhasil diperbarui.
 
-    return;
+<br><br>
 
-}
+Memuat ulang halaman...
+`;
 
-if(
-type=="tagihan"
-&&
-data.status_tagihan=="SUDAH"
-){
+document
+.getElementById("btnUpdate")
+.disabled = true;
 
-    alert(
-    "Status penagihan sudah pernah diperbarui."
-    );
-
-    return;
-
-}
-
-    let updateData = {};
-
-    if(type=="finance"){
-
-        updateData = {
-
-            status_finance:"SUDAH",
-
-            tanggal_bayar:
-            new Date()
-            .toISOString()
-            .substring(0,10)
-
-        };
-
-    }else{
-
-        updateData = {
-
-            status_tagihan:"SUDAH",
-
-            tanggal_tagih:
-            new Date()
-            .toISOString()
-            .substring(0,10)
-
-        };
-
-    }
-
-    let query =
-    sb
-    .from("pengajuan_header")
-    .update(updateData);
-
-    if(type=="finance"){
-
-    query =
-    query
-    .eq(
-        "token_finance",
-        token
-    )
-    .eq(
-        "status_finance",
-        "BELUM"
-    );
-
-}else{
-
-    query =
-    query
-    .eq(
-        "token_tagihan",
-        token
-    )
-    .eq(
-        "status_tagihan",
-        "BELUM"
-    );
-
-}
-
-    const {error} =
-    await query;
-
-    if(error){
-
-        alert(error.message);
-
-        return;
-
-    }
-
-    alert("Status berhasil diperbarui.");
+setTimeout(()=>{
 
     location.reload();
 
+},1000);
+
+        if(!vendorMap[item.vendor]){
+
+            vendorMap[item.vendor]={
+
+                items:[],
+
+                total:0
+
+            };
+
+        }
+
+        vendorMap[item.vendor].items.push({
+
+            barang:item.nama_barang,
+
+            qty:item.qty,
+
+            satuan:item.satuan,
+
+            nominal:Number(item.nominal_tagihan)
+
+        });
+
+        vendorMap[item.vendor].total +=
+        Number(item.nominal_tagihan);
+
+    });
+
+    let html = "";
+
+const status =
+type=="finance"
+?
+data.status_finance
+:
+data.status_tagihan;
+
+const tanggal =
+type=="finance"
+?
+data.tanggal_bayar
+:
+data.tanggal_tagih;
+
+if(status=="SUDAH"){
+
+    html=
+
+    `
+    <div class="status-box status-sudah">
+
+        <h2>
+
+        ✅ STATUS SELESAI
+
+        </h2>
+
+        <p>
+
+        ${type=="finance"
+        ?
+        "Pembayaran telah dilakukan."
+        :
+        "Penagihan telah dilakukan."}
+
+        </p>
+
+        <div class="lock-info">
+
+        Tanggal :
+
+        ${tanggal}
+
+        <br><br>
+
+        Halaman ini telah dikunci.
+
+        </div>
+
+    </div>
+
+    `;
+
+    document
+    .getElementById("btnUpdate")
+    .style.display="none";
+
+}else{
+
+    html=
+
+    `
+    <div class="status-box status-belum">
+
+        <h3>
+
+        ⏳ MENUNGGU PROSES
+
+        </h3>
+
+        <label>
+
+        <input
+        type="radio"
+        name="status"
+        value="SUDAH">
+
+        ${type=="finance"
+        ?
+        "Sudah Dibayar"
+        :
+        "Sudah Ditagihkan"}
+
+        </label>
+
+    </div>
+
+    `;
+
 }
 
-console.log(type);
+document
+.getElementById("statusArea")
+.innerHTML=
+html;
 
-console.log(token);
 
-</script>
+async function updateStatus(){
 
-</body>
 
-</html>
+
