@@ -394,12 +394,6 @@ button:disabled{
 
             <h1>PAYMENT WORKFLOW</h1>
 
-           <div
-id="statusBadge">
-
-Payment Workflow
-
-</div>
 
         </div>
 
@@ -518,7 +512,7 @@ Payment Workflow
 
                 <div class="summary-item total">
 
-                    <span>Total Transfer</span>
+                   <span>Total Tagihan Klien</span>
 
                     <b id="totalTransfer">
 
@@ -753,7 +747,7 @@ async function loadData(){
             error
         }
         =
-        await query.single();
+       await query.maybeSingle();
 
         if(error) throw error;
 
@@ -819,7 +813,7 @@ function renderHeader(){
     document.getElementById("totalVendor").innerHTML =
     "Rp "+
     Number(
-        headerData.nominal_tagihan
+       document.getElementById("totalVendor").innerHTML="Loading...";
     )
     .toLocaleString("id-ID");
 
@@ -971,6 +965,14 @@ function renderDetail(){
 // HITUNG TOTAL
 // ====================================
 
+if(detailData.length==0){
+
+    document.getElementById("detailVendor").innerHTML=
+    "<div class='loading'>Belum ada item.</div>";
+
+    return;
+
+}
 let totalVendor = 0;
 
 detailData.forEach(item=>{
