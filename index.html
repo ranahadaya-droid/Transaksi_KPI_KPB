@@ -1006,6 +1006,8 @@ for(const vendorInput of vendors){
         const nomorPengajuan =
         await generateNomorPengajuan();
 
+        console.log("HASIL GENERATE =", nomorPengajuan);
+
         nomorPengajuanGlobal =
         nomorPengajuan;
 
@@ -1108,6 +1110,8 @@ btn.innerText="Simpan Pengajuan";
         .select()
         .single();
 
+        console.log("HEADER DATABASE =", headerData.no_pengajuan);
+
        if(headerError){
 
     btn.disabled = false;
@@ -1208,6 +1212,12 @@ if(logError){
 
 }
 
+    console.log("===== DATA POPUP =====");
+console.log("Generate :", nomorPengajuan);
+console.log("Database :", headerData.no_pengajuan);
+console.log("Global :", nomorPengajuanGlobal);
+console.log("======================");
+        
        document
 .getElementById("popupNo")
 .innerText =
