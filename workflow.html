@@ -715,23 +715,25 @@ let detailData = [];
 // LOAD HEADER
 // ================================
 
-async function loadData(){
+let query =
+sb
+.from("pengajuan_header")
+.select("*");
 
-    try{
+if(type=="finance"){
 
-        let query =
-        sb
-        .from("pengajuan_header")
-        .select("*");
+    query =
+    query.eq("token_finance",token);
 
-        if(type=="finance"){
+}else{
 
-    result = await sb
-    .from("pengajuan_header")
-    .update({
-        status_finance:"SUDAH",
-        tanggal_bayar:new Date().toISOString().substring(0,10)
-    })
+    query =
+    query.eq("token_tagihan",token);
+
+}
+
+const {data,error} =
+await query.maybeSingle();
     .eq("id", headerData.id)
     .select();
 
@@ -826,10 +828,10 @@ function renderHeader(){
 
     document.getElementById("biayaAdmin").innerHTML =
     "Rp "+
-    Number(
-        const admin=
-Number(headerData.biaya_admin ?? 0);
-    )
+   document.getElementById("biayaAdmin").innerHTML =
+"Rp " +
+Number(headerData.biaya_admin || 0)
+.toLocaleString("id-ID");
     .toLocaleString("id-ID");
 
 }
@@ -971,10 +973,6 @@ if(detailData.length==0){
 
 }else{
 
-    document.getElementById("detailVendor").innerHTML=
-    html;
-
-}
 let totalVendor = 0;
 
 detailData.forEach(item=>{
@@ -1170,7 +1168,7 @@ function renderActivity(){
 
         <div class="activity-date">
 
-           new Date(String(tanggal))
+          ${formatTanggal(headerData.created_at)}
 
         </div>
 
