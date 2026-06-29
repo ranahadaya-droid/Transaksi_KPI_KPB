@@ -5,9 +5,8 @@
 
 <meta charset="UTF-8">
 
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+content="width=device-width,initial-scale=1.0">
 
 <title>Payment Workflow</title>
 
@@ -16,367 +15,355 @@ content="width=device-width, initial-scale=1.0">
 <style>
 
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+margin:0;
+padding:0;
+box-sizing:border-box;
 }
 
 body{
 
-    background:#eef2f7;
-    font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
-    color:#333;
-    padding:20px;
+background:#eef3f8;
+font-family:Segoe UI,Arial,sans-serif;
+color:#333;
+padding:20px;
 
 }
 
 .container{
 
-    max-width:750px;
-    margin:auto;
+max-width:900px;
+margin:auto;
 
 }
 
 .card{
 
-    background:#fff;
-    border-radius:16px;
-    overflow:hidden;
-    box-shadow:0 10px 30px rgba(0,0,0,.10);
+background:#fff;
+border-radius:18px;
+overflow:hidden;
+box-shadow:0 10px 30px rgba(0,0,0,.10);
 
 }
 
 .header{
 
-    background:linear-gradient(135deg,#1565c0,#1976d2);
-    color:white;
-    text-align:center;
-    padding:25px;
+background:linear-gradient(135deg,#1565c0,#1976d2);
+padding:28px;
+text-align:center;
+color:#fff;
 
 }
 
 .header h1{
 
-    font-size:28px;
-    letter-spacing:1px;
-    margin-bottom:10px;
+font-size:34px;
+letter-spacing:1px;
+margin-bottom:8px;
 
 }
 
-.status-badge{
+.header p{
 
-    display:inline-block;
-    background:white;
-    color:#1565c0;
-    padding:8px 18px;
-    border-radius:30px;
-    font-size:13px;
-    font-weight:bold;
+opacity:.9;
+font-size:15px;
 
 }
 
 .content{
 
-    padding:25px;
+padding:30px;
 
 }
 
-h2{
+.section-title{
 
-    margin:20px 0 15px;
-    color:#1565c0;
-    font-size:18px;
-
-}
-
-.section{
-
-    margin-bottom:18px;
-
-}
-
-.row2{
-
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:15px;
-    margin-top:18px;
-
-}
-
-.label{
-
-    color:#888;
-    font-size:13px;
-    margin-bottom:5px;
-
-}
-
-.value{
-
-    font-size:17px;
-    font-weight:600;
-    color:#222;
+font-size:22px;
+font-weight:bold;
+color:#1565c0;
+margin:35px 0 20px;
 
 }
 
 .separator{
 
-    height:1px;
-    background:#ececec;
-    margin:25px 0;
+height:1px;
+background:#ececec;
+margin:28px 0;
 
 }
 
-.summary{
+.grid2{
 
-    background:#f7f9fc;
-    border-radius:12px;
-    padding:18px;
-
-}
-
-.summary-item{
-
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin:10px 0;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px;
 
 }
 
-.summary-item span{
+.label{
 
-    color:#666;
-
-}
-
-.summary-item b{
-
-    color:#1565c0;
+font-size:13px;
+color:#888;
+margin-bottom:5px;
 
 }
 
-.summary-item.total{
+.value{
 
-    margin-top:18px;
-    padding-top:15px;
-    border-top:1px solid #ddd;
-    font-size:20px;
-
-}
-
-.summary-item.total b{
-
-    color:#2e7d32;
-    font-size:24px;
+font-size:18px;
+font-weight:600;
+color:#222;
 
 }
 
-#detailVendor{
+.vendor-list{
 
-    display:flex;
-    flex-direction:column;
-    gap:15px;
+display:flex;
+flex-direction:column;
+gap:15px;
 
 }
 
 .vendor-card{
 
-    background:#fafafa;
-    border-left:5px solid #1565c0;
-    border-radius:10px;
-    padding:15px;
+background:#fafafa;
+border-left:5px solid #1976d2;
+padding:18px;
+border-radius:10px;
 
 }
 
 .vendor-title{
 
-    font-size:18px;
-    font-weight:bold;
-    color:#1565c0;
-    margin-bottom:10px;
+font-size:18px;
+font-weight:bold;
+color:#1565c0;
+margin-bottom:10px;
 
 }
 
-.item{
+.vendor-item{
 
-    padding-left:15px;
-    margin:6px 0;
-    line-height:1.6;
+padding-left:12px;
+margin:8px 0;
+line-height:1.6;
 
 }
 
 .vendor-total{
 
-    margin-top:12px;
-    padding-top:12px;
-    border-top:1px dashed #ddd;
-    text-align:right;
-    font-weight:bold;
-    color:#1565c0;
+margin-top:12px;
+padding-top:12px;
+border-top:1px dashed #ddd;
+text-align:right;
+font-weight:bold;
+color:#1565c0;
+
+}
+
+.summary{
+
+background:#f7f9fc;
+padding:20px;
+border-radius:12px;
+
+}
+
+.summary-row{
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin:12px 0;
+
+}
+
+.summary-row span{
+
+color:#666;
+
+}
+
+.summary-row b{
+
+color:#1565c0;
+
+}
+
+.summary-total{
+
+margin-top:18px;
+padding-top:18px;
+border-top:1px solid #ddd;
+font-size:22px;
+
+}
+
+.summary-total b{
+
+color:#2e7d32;
+font-size:28px;
 
 }
 
 .keperluan{
 
-    background:#fafafa;
-    border-radius:10px;
-    padding:15px;
-    line-height:1.7;
+background:#fafafa;
+padding:18px;
+border-radius:10px;
+line-height:1.7;
 
 }
 
 .status-box{
 
-    padding:18px;
-    border-radius:10px;
-    text-align:center;
-    margin-bottom:20px;
+padding:20px;
+border-radius:12px;
+text-align:center;
 
 }
 
 .status-belum{
 
-    background:#fff8e1;
-    border:1px solid #ffd54f;
-    color:#ef6c00;
+background:#fff8e1;
+border:1px solid #ffd54f;
+color:#ef6c00;
 
 }
 
 .status-sudah{
 
-    background:#e8f5e9;
-    border:1px solid #81c784;
-    color:#2e7d32;
-
-}
-
-button{
-
-    width:100%;
-    border:none;
-    border-radius:10px;
-    padding:14px;
-    margin-top:18px;
-    cursor:pointer;
-    background:#2e7d32;
-    color:white;
-    font-size:16px;
-    font-weight:bold;
-    transition:.2s;
-
-}
-
-button:hover{
-
-    background:#1b5e20;
-
-}
-
-button:disabled{
-
-    background:#bdbdbd;
-    cursor:not-allowed;
-
-}
-
-.success{
-
-    margin-top:15px;
-    background:#e8f5e9;
-    border-radius:10px;
-    padding:15px;
-    color:#2e7d32;
-    display:none;
-
-}
-
-.error{
-
-    margin-top:15px;
-    background:#ffebee;
-    border-radius:10px;
-    padding:15px;
-    color:#c62828;
-    display:none;
+background:#e8f5e9;
+border:1px solid #81c784;
+color:#2e7d32;
 
 }
 
 .activity{
 
-    border-left:4px solid #1976d2;
-    padding-left:15px;
-    margin-bottom:18px;
+border-left:4px solid #1976d2;
+padding-left:15px;
+margin-bottom:20px;
 
 }
 
 .activity-date{
 
-    color:#999;
-    font-size:12px;
+font-size:12px;
+color:#999;
 
 }
 
 .activity-title{
 
-    font-weight:bold;
-    margin:5px 0;
+font-weight:bold;
+margin:5px 0;
 
 }
 
 .activity-desc{
 
-    color:#444;
-    line-height:1.6;
+line-height:1.6;
+color:#444;
+
+}
+
+button{
+
+width:100%;
+padding:15px;
+border:none;
+border-radius:10px;
+margin-top:20px;
+background:#2e7d32;
+color:#fff;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+transition:.2s;
+
+}
+
+button:hover{
+
+background:#1b5e20;
+
+}
+
+button:disabled{
+
+background:#bdbdbd;
+cursor:not-allowed;
+
+}
+
+.success{
+
+display:none;
+margin-top:18px;
+padding:15px;
+background:#e8f5e9;
+border-radius:10px;
+color:#2e7d32;
+
+}
+
+.error{
+
+display:none;
+margin-top:18px;
+padding:15px;
+background:#ffebee;
+border-radius:10px;
+color:#c62828;
 
 }
 
 .loading{
 
-    text-align:center;
-    color:#777;
-    padding:20px;
+padding:20px;
+text-align:center;
+color:#777;
 
 }
 
 @media(max-width:768px){
 
-    body{
+body{
 
-        padding:10px;
+padding:10px;
 
-    }
+}
 
-    .content{
+.content{
 
-        padding:18px;
+padding:18px;
 
-    }
+}
 
-    .row2{
+.grid2{
 
-        grid-template-columns:1fr;
+grid-template-columns:1fr;
 
-    }
+}
 
-    .header h1{
+.header h1{
 
-        font-size:22px;
+font-size:26px;
 
-    }
+}
 
-    .summary-item.total{
+.summary-total{
 
-        font-size:18px;
+font-size:18px;
 
-    }
+}
 
-    .summary-item.total b{
+.summary-total b{
 
-        font-size:22px;
+font-size:24px;
 
-    }
+}
 
 }
 
@@ -388,383 +375,393 @@ button:disabled{
 
 <div class="container">
 
-    <div class="card">
+<div class="card">
 
-        <div class="header">
+<div class="header">
 
-            <h1>PAYMENT WORKFLOW</h1>
+<h1>PAYMENT WORKFLOW</h1>
 
+<p id="workflowTitle">
 
-        </div>
+Memuat data...
 
-        <div class="content">
+</p>
 
-            <!-- ========================= -->
-            <!-- INFORMASI HEADER -->
-            <!-- ========================= -->
+</div>
 
-            <div class="section">
+<div class="content">
 
-                <div class="label">
-                    No Pengajuan
-                </div>
+<!-- HEADER -->
 
-                <div
-                id="no_pengajuan"
-                class="value">
+<div>
 
-                    -
+<div class="label">
 
-                </div>
+No Pengajuan
 
-            </div>
+</div>
 
-            <div class="row2">
+<div
+id="no_pengajuan"
+class="value">
 
-                <div>
+-
 
-                    <div class="label">
+</div>
 
-                        Jenis
+</div>
 
-                    </div>
+<div
+class="grid2"
+style="margin-top:20px;">
 
-                    <div
-                    id="jenis"
-                    class="value">
+<div>
 
-                        -
+<div class="label">
 
-                    </div>
+Jenis
 
-                </div>
+</div>
 
-                <div>
+<div
+id="jenis"
+class="value">
 
-                    <div class="label">
+-
 
-                        Klien
+</div>
 
-                    </div>
+</div>
 
-                    <div
-                    id="klien"
-                    class="value">
+<div>
 
-                        -
+<div class="label">
 
-                    </div>
+Klien
 
-                </div>
+</div>
 
-            </div>
+<div
+id="klien"
+class="value">
 
-            <div class="separator"></div>
+-
 
-            <!-- ========================= -->
-            <!-- DETAIL -->
-            <!-- ========================= -->
+</div>
 
-            <h2>
+</div>
 
-                DETAIL PENGAJUAN
+</div>
 
-            </h2>
+<div class="separator"></div>
 
-            <div
-            id="detailVendor">
+<!-- DETAIL -->
 
-                Loading...
+<div class="section-title">
 
-            </div>
+DETAIL PENGAJUAN
 
-            <div class="separator"></div>
+</div>
 
-            <!-- ========================= -->
-            <!-- TOTAL -->
-            <!-- ========================= -->
+<div
+id="detailVendor"
+class="vendor-list">
 
-            <div class="summary">
+<div class="loading">
 
-                <div class="summary-item">
+Memuat data...
 
-                    <span>Total Vendor</span>
+</div>
 
-                    <b id="totalVendor">
+</div>
 
-                        Rp0
+<div class="separator"></div>
 
-                    </b>
+<!-- SUMMARY -->
 
-                </div>
+<div class="summary">
 
-                <div class="summary-item">
+<div class="summary-row">
 
-                    <span>Biaya Admin</span>
+<span>Total Vendor</span>
 
-                    <b id="biayaAdmin">
+<b id="totalVendor">
 
-                        Rp0
+Rp0
 
-                    </b>
+</b>
 
-                </div>
+</div>
 
-                <div class="summary-item total">
+<div class="summary-row">
 
-                   <span>Total Tagihan Klien</span>
+<span>Biaya Admin</span>
 
-                    <b id="totalTransfer">
+<b id="biayaAdmin">
 
-                        Rp0
+Rp0
 
-                    </b>
+</b>
 
-                </div>
+</div>
 
-            </div>
+<div class="summary-row summary-total">
 
-            <div class="separator"></div>
+<span>Total Tagihan Klien</span>
 
-            <!-- ========================= -->
-            <!-- REKENING -->
-            <!-- ========================= -->
+<b id="totalTagihan">
 
-            <h2>
+Rp0
 
-                INFORMASI REKENING
+</b>
 
-            </h2>
+</div>
 
-            <div class="section">
+</div>
 
-                <div class="label">
+<div class="separator"></div>
 
-                    Bank
+<!-- REKENING -->
 
-                </div>
+<div class="section-title">
 
-                <div
-                id="nama_bank"
-                class="value">
+INFORMASI REKENING
 
-                    -
+</div>
 
-                </div>
+<div class="grid2">
 
-            </div>
+<div>
 
-            <div class="section">
+<div class="label">
 
-                <div class="label">
+Bank
 
-                    Nomor Rekening
+</div>
 
-                </div>
+<div
+id="nama_bank"
+class="value">
 
-                <div
-                id="nomor_rekening"
-                class="value">
+-
 
-                    -
+</div>
 
-                </div>
+</div>
 
-            </div>
+<div>
 
-            <div class="section">
+<div class="label">
 
-                <div class="label">
+No Rekening
 
-                    Atas Nama
+</div>
 
-                </div>
+<div
+id="nomor_rekening"
+class="value">
 
-                <div
-                id="atas_nama"
-                class="value">
+-
 
-                    -
+</div>
 
-                </div>
+</div>
 
-            </div>
+</div>
 
-            <div class="separator"></div>
+<div style="margin-top:20px;">
 
-            <!-- ========================= -->
-            <!-- KEPERLUAN -->
-            <!-- ========================= -->
+<div class="label">
 
-            <h2>
+Atas Nama
 
-                KEPERLUAN
+</div>
 
-            </h2>
+<div
+id="atas_nama"
+class="value">
 
-            <div
-            id="keperluan"
-            class="keperluan">
+-
 
-                -
+</div>
 
-            </div>
+</div>
 
-            <div class="separator"></div>
+<div class="separator"></div>
 
-            <!-- ========================= -->
-            <!-- STATUS -->
-            <!-- ========================= -->
+<!-- KEPERLUAN -->
 
-            <h2>
+<div class="section-title">
 
-                STATUS
+KEPERLUAN
 
-            </h2>
+</div>
 
-            <div
-            id="statusArea">
+<div
+id="keperluan"
+class="keperluan">
 
-            </div>
+-
 
-            <button
-            id="btnUpdate"
-            onclick="updateStatus()">
+</div>
 
-                UPDATE STATUS
+<div class="separator"></div>
 
-            </button>
+<!-- STATUS -->
 
-            <div
-            id="success"
-            class="success">
+<div class="section-title">
 
-            </div>
+STATUS
 
-            <div
-            id="error"
-            class="error">
+</div>
 
-            </div>
+<div
+id="statusArea">
 
-            <div class="separator"></div>
+<div class="loading">
 
-            <!-- ========================= -->
-            <!-- AKTIVITAS -->
-            <!-- ========================= -->
+Memuat status...
 
-            <h2>
+</div>
 
-                AKTIVITAS
+</div>
 
-            </h2>
+<button
+id="btnUpdate">
 
-            <div
-            id="activityArea">
+UPDATE STATUS
 
-                Loading...
+</button>
 
-            </div>
+<div
+id="success"
+class="success">
 
-        </div>
+</div>
 
-    </div>
+<div
+id="error"
+class="error">
+
+</div>
+
+<div class="separator"></div>
+
+<!-- ACTIVITY -->
+
+<div class="section-title">
+
+AKTIVITAS
+
+</div>
+
+<div
+id="activityArea">
+
+<div class="loading">
+
+Memuat aktivitas...
+
+</div>
+
+</div>
+
+</div>
+
+</div>
 
 </div>
 
 <script>
 
-// ================================
+// ======================================
 // SUPABASE
-// ================================
+// ======================================
 
 const sb = window.supabase.createClient(
     "https://dwfkjlcmjnbhuieqkpkl.supabase.co",
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR3ZmtqbGNtam5iaHVpZXFrcGtsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIzNjY3ODksImV4cCI6MjA5Nzk0Mjc4OX0.QjjXjImFkFpUWaAY-uMdX5gNi7k8xUl11YGlBe0CVsQ"
 );
 
-// ================================
+// ======================================
 // URL PARAMETER
-// ================================
+// ======================================
 
 const params = new URLSearchParams(window.location.search);
 
 const type = params.get("type");
 
 const token = params.get("token");
-console.log("TOKEN URL :",token);
-    
+
 if(!type || !token){
 
     document.getElementById("error").style.display="block";
-    document.getElementById("error").innerHTML="Link tidak valid.";
+
+    document.getElementById("error").innerHTML=
+    "Link tidak valid.";
+
     throw new Error("Parameter URL tidak ditemukan.");
 
 }
 
-// ================================
+// ======================================
 // GLOBAL
-// ================================
+// ======================================
 
 let headerData = null;
 
 let detailData = [];
 
+// ======================================
+// LOAD DATA
+// ======================================
 
-// ================================
-// LOAD HEADER
-// ================================
+async function loadData(){
 
-let query =
-sb
-.from("pengajuan_header")
-.select("*");
+    try{
 
-if(type=="finance"){
+        let query =
+        sb
+        .from("pengajuan_header")
+        .select("*");
 
-    query =
-    query.eq("token_finance",token);
+        if(type==="finance"){
 
-}else{
+            query =
+            query.eq(
+                "token_finance",
+                token
+            );
 
-    query =
-    query.eq("token_tagihan",token);
+        }else{
 
-}
+            query =
+            query.eq(
+                "token_tagihan",
+                token
+            );
 
-const {data,error} =
-await query.maybeSingle();
-    .eq("id", headerData.id)
-    .select();
-
-}else{
-
-    result = await sb
-    .from("pengajuan_header")
-    .update({
-        status_tagihan:"SUDAH",
-        tanggal_tagih:new Date().toISOString().substring(0,10)
-    })
-    .eq("id", headerData.id)
-    .select();
-
-}
+        }
 
         const {
             data,
             error
-        }
-        =
-       await query.maybeSingle();
+        } =
+        await query.maybeSingle();
 
         if(error) throw error;
 
-        headerData=data;
-        console.log("HEADER :",data);
+        if(!data){
 
-        if(!headerData){
-    throw new Error("Data pengajuan tidak ditemukan.");
-}
+            throw new Error(
+                "Data pengajuan tidak ditemukan."
+            );
+
+        }
+
+        headerData = data;
+
+        console.log("HEADER",headerData);
 
         renderHeader();
 
@@ -778,7 +775,7 @@ await query.maybeSingle();
 
     catch(err){
 
-        console.log(err);
+        console.error(err);
 
         document
         .getElementById("error")
@@ -796,11 +793,15 @@ await query.maybeSingle();
     }
 
 }
-// ================================
+
+    // ======================================
 // HEADER
-// ================================
+// ======================================
 
 function renderHeader(){
+
+    document.getElementById("workflowTitle").innerHTML =
+    headerData.no_pengajuan;
 
     document.getElementById("no_pengajuan").innerHTML =
     headerData.no_pengajuan;
@@ -823,38 +824,40 @@ function renderHeader(){
     document.getElementById("keperluan").innerHTML =
     headerData.keperluan;
 
-    document.getElementById("totalVendor").innerHTML =
-"Loading...";
-
-    document.getElementById("biayaAdmin").innerHTML =
-    "Rp "+
-   document.getElementById("biayaAdmin").innerHTML =
-"Rp " +
-Number(headerData.biaya_admin || 0)
-.toLocaleString("id-ID");
-    .toLocaleString("id-ID");
-
 }
 
-// ==========================================
-// LOAD DETAIL
-// ==========================================
+    // ======================================
+// DETAIL
+// ======================================
 
 async function loadDetail(){
 
-    const { data, error } =
+    const {
+        data,
+        error
+    } =
     await sb
     .from("pengajuan_detail")
     .select("*")
-    .eq("header_id", headerData.id)
-    .order("id",{ascending:true});
+    .eq(
+        "header_id",
+        headerData.id
+    )
+    .order(
+        "id",
+        {
+            ascending:true
+        }
+    );
 
     if(error){
 
-        console.log(error);
+        console.error(error);
 
-        document.getElementById("detailVendor").innerHTML =
-        "<div class='error'>Gagal mengambil detail pengajuan.</div>";
+        document
+        .getElementById("detailVendor")
+        .innerHTML=
+        "<div class='loading'>Gagal mengambil detail.</div>";
 
         return;
 
@@ -866,43 +869,40 @@ async function loadDetail(){
 
 }
 
-// ==========================================
+// ======================================
 // RENDER DETAIL
-// ==========================================
+// ======================================
 
 function renderDetail(){
 
     let vendorMap = {};
+    let totalVendor = 0;
 
     detailData.forEach(item=>{
 
         if(!vendorMap[item.vendor]){
 
             vendorMap[item.vendor]={
-
                 items:[],
-
                 total:0
-
             };
 
         }
 
         vendorMap[item.vendor].items.push(item);
 
-        vendorMap[item.vendor].total +=
-        Number(item.nominal_tagihan);
+        vendorMap[item.vendor].total += Number(item.nominal_tagihan);
+
+        totalVendor += Number(item.nominal_tagihan);
 
     });
 
     let html="";
-
     let no=1;
 
     Object.keys(vendorMap).forEach(vendor=>{
 
-        html +=
-        `
+        html+=`
         <div class="vendor-card">
 
             <div class="vendor-title">
@@ -914,11 +914,11 @@ function renderDetail(){
 
         vendorMap[vendor].items.forEach(item=>{
 
-            html +=
-            `
-            <div class="item">
+            html+=`
 
-                • <b>${item.nama_barang}</b>
+            <div class="vendor-item">
+
+                • ${item.nama_barang}
 
                 (${item.qty} ${item.satuan})
 
@@ -927,218 +927,116 @@ function renderDetail(){
                 Rp ${Number(item.nominal_tagihan).toLocaleString("id-ID")}
 
             </div>
+
             `;
 
         });
 
-        html +=
-        `
+        html+=`
+
             <div class="vendor-total">
 
-                Total
-
-                <br>
+                Total :
 
                 Rp ${vendorMap[vendor].total.toLocaleString("id-ID")}
 
             </div>
 
         </div>
+
         `;
 
         no++;
 
     });
 
-    if(html==""){
+    if(html===""){
 
-        html=
-        `
-        <div class="loading">
-
-            Tidak ada detail pengajuan.
-
-        </div>
-        `;
+        html="<div class='loading'>Belum ada detail pengajuan.</div>";
 
     }
-// ====================================
-// HITUNG TOTAL
-// ====================================
 
-if(detailData.length==0){
+    document.getElementById("detailVendor").innerHTML=html;
 
-    document.getElementById("detailVendor").innerHTML=
-    "<div class='loading'>Belum ada item.</div>";
+    const admin = Number(headerData.biaya_admin || 0);
 
-}else{
+    document.getElementById("totalVendor").innerHTML =
+    "Rp "+totalVendor.toLocaleString("id-ID");
 
-let totalVendor = 0;
+    document.getElementById("biayaAdmin").innerHTML =
+    "Rp "+admin.toLocaleString("id-ID");
 
-detailData.forEach(item=>{
-
-    totalVendor +=
-    Number(item.nominal_tagihan);
-
-});
-
-document.getElementById("totalVendor").innerHTML =
-"Rp " +
-totalVendor.toLocaleString("id-ID");
-
-const admin =
-Number(headerData.biaya_admin || 0);
-
-document.getElementById("biayaAdmin").innerHTML =
-"Rp " +
-admin.toLocaleString("id-ID");
-
-document.getElementById("totalTransfer").innerHTML =
-"Rp " +
-(totalVendor + admin).toLocaleString("id-ID");
-    document.getElementById("detailVendor").innerHTML =
-    html;
+    document.getElementById("totalTagihan").innerHTML =
+    "Rp "+(totalVendor+admin).toLocaleString("id-ID");
 
 }
 
-
-// ==========================================
-// UPDATE STATUS
-// ==========================================
-
-async function updateStatus(){
-
-    const radio = document.querySelector('input[name="status"]:checked');
-
-    if(!radio){
-        alert("Pilih status.");
-        return;
-    }
-
-    let result;
-
-    if(type=="finance"){
-
-        result = await sb
-        .from("pengajuan_header")
-        .update({
-            status_finance:"SUDAH",
-            tanggal_bayar:new Date().toISOString().substring(0,10)
-        })
-        .eq("token_finance",token)
-        .select();
-
-    }else{
-
-        result = await sb
-        .from("pengajuan_header")
-        .update({
-            status_tagihan:"SUDAH",
-            tanggal_tagih:new Date().toISOString().substring(0,10)
-        })
-        .eq("token_tagihan",token)
-        .select();
-
-    }
-
-    console.log(result);
-
-    if(result.error){
-        alert(result.error.message);
-        return;
-    }
-
-    if(result.data.length===0){
-        alert("Data tidak ditemukan.");
-        return;
-    }
-
-    alert("Status berhasil diperbarui.");
-
-    location.reload();
-
-}
-   
-
-// ==========================================
+// ======================================
 // STATUS
-// ==========================================
+// ======================================
 
 function renderStatus(){
 
     const status =
-    type=="finance"
+    type==="finance"
     ?
     headerData.status_finance
     :
     headerData.status_tagihan;
 
     const tanggal =
-    type=="finance"
+    type==="finance"
     ?
     headerData.tanggal_bayar
     :
     headerData.tanggal_tagih;
 
-    let html="";
+    if(status==="SUDAH"){
 
-    if(status=="SUDAH"){
-
-        html=`
+        document.getElementById("statusArea").innerHTML=`
 
         <div class="status-box status-sudah">
 
-            <h3>
-
-                ✅ STATUS SELESAI
-
-            </h3>
+            <h3>✅ SELESAI</h3>
 
             <br>
 
             Tanggal :
 
-            ${tanggal}
+            ${formatTanggal(tanggal)}
 
             <br><br>
 
-            Halaman ini telah dikunci.
+            Status telah dikunci.
 
         </div>
 
         `;
 
-        document
-        .getElementById("btnUpdate")
-        .style.display="none";
+        document.getElementById("btnUpdate").style.display="none";
 
     }
 
     else{
 
-        html=`
+        document.getElementById("statusArea").innerHTML=`
 
         <div class="status-box status-belum">
 
             <label>
 
-            <input
-
+                <input
                 type="radio"
-
                 name="status"
+                value="SUDAH">
 
-                value="SUDAH"
-
-            >
-
-            ${
-                type=="finance"
-                ?
-                "Sudah Dibayar"
-                :
-                "Sudah Ditagihkan"
-            }
+                ${
+                    type==="finance"
+                    ?
+                    "Sudah Dibayar"
+                    :
+                    "Sudah Ditagihkan"
+                }
 
             </label>
 
@@ -1148,27 +1046,105 @@ function renderStatus(){
 
     }
 
-    document
-    .getElementById("statusArea")
-    .innerHTML=
-    html;
+}
+
+// ======================================
+// UPDATE STATUS
+// ======================================
+
+async function updateStatus(){
+
+    const radio =
+    document.querySelector(
+        'input[name="status"]:checked'
+    );
+
+    if(!radio){
+
+        alert("Silakan pilih status.");
+
+        return;
+
+    }
+
+    let updateData={};
+
+    if(type==="finance"){
+
+        updateData={
+
+            status_finance:"SUDAH",
+
+            tanggal_bayar:
+            new Date().toISOString().substring(0,10)
+
+        };
+
+    }else{
+
+        updateData={
+
+            status_tagihan:"SUDAH",
+
+            tanggal_tagih:
+            new Date().toISOString().substring(0,10)
+
+        };
+
+    }
+
+    const {
+
+        data,
+
+        error
+
+    } =
+    await sb
+    .from("pengajuan_header")
+    .update(updateData)
+    .eq("id",headerData.id)
+    .select();
+
+    if(error){
+
+        alert(error.message);
+
+        return;
+
+    }
+
+    if(data.length===0){
+
+        alert("Data tidak berhasil diperbarui.");
+
+        return;
+
+    }
+
+    alert("Status berhasil diperbarui.");
+
+    location.reload();
 
 }
 
-    // ==========================================
+document
+.getElementById("btnUpdate")
+.onclick=updateStatus;
+
+// ======================================
 // ACTIVITY
-// ==========================================
+// ======================================
 
 function renderActivity(){
 
-    let html="";
+    let html=`
 
-    html += `
     <div class="activity">
 
         <div class="activity-date">
 
-          ${formatTanggal(headerData.created_at)}
+            ${formatTanggal(headerData.created_at)}
 
         </div>
 
@@ -1180,18 +1156,17 @@ function renderActivity(){
 
         <div class="activity-desc">
 
-            Nomor Pengajuan
-
-            <b>${headerData.no_pengajuan}</b>
+            ${headerData.no_pengajuan}
 
         </div>
 
     </div>
+
     `;
 
-    if(headerData.status_finance=="SUDAH"){
+    if(headerData.status_finance==="SUDAH"){
 
-        html += `
+        html+=`
 
         <div class="activity">
 
@@ -1219,9 +1194,9 @@ function renderActivity(){
 
     }
 
-    if(headerData.status_tagihan=="SUDAH"){
+    if(headerData.status_tagihan==="SUDAH"){
 
-        html += `
+        html+=`
 
         <div class="activity">
 
@@ -1253,9 +1228,9 @@ function renderActivity(){
 
 }
 
-    // ==========================================
+// ======================================
 // FORMAT TANGGAL
-// ==========================================
+// ======================================
 
 function formatTanggal(tanggal){
 
@@ -1265,32 +1240,21 @@ function formatTanggal(tanggal){
     .toLocaleDateString(
         "id-ID",
         {
-
             day:"2-digit",
-
             month:"long",
-
             year:"numeric"
-
         }
-
     );
 
 }
-
-    // ==========================================
-// LOADING
-// ==========================================
 
 window.onload=()=>{
 
     loadData();
 
-}
-
+};
 
 </script>
 
 </body>
-
 </html>
