@@ -726,21 +726,27 @@ async function loadData(){
 
         if(type=="finance"){
 
-            query =
-            query.eq(
-                "token_finance",
-                token
-            );
+    result = await sb
+    .from("pengajuan_header")
+    .update({
+        status_finance:"SUDAH",
+        tanggal_bayar:new Date().toISOString().substring(0,10)
+    })
+    .eq("id", headerData.id)
+    .select();
 
-        }else{
+}else{
 
-            query =
-            query.eq(
-                "token_tagihan",
-                token
-            );
+    result = await sb
+    .from("pengajuan_header")
+    .update({
+        status_tagihan:"SUDAH",
+        tanggal_tagih:new Date().toISOString().substring(0,10)
+    })
+    .eq("id", headerData.id)
+    .select();
 
-        }
+}
 
         const {
             data,
@@ -752,6 +758,7 @@ async function loadData(){
         if(error) throw error;
 
         headerData=data;
+        console.log("HEADER :",data);
 
         if(!headerData){
     throw new Error("Data pengajuan tidak ditemukan.");
@@ -820,7 +827,8 @@ function renderHeader(){
     document.getElementById("biayaAdmin").innerHTML =
     "Rp "+
     Number(
-        headerData.biaya_admin
+        const admin=
+Number(headerData.biaya_admin ?? 0);
     )
     .toLocaleString("id-ID");
 
@@ -961,7 +969,10 @@ if(detailData.length==0){
     document.getElementById("detailVendor").innerHTML=
     "<div class='loading'>Belum ada item.</div>";
 
-    return;
+}else{
+
+    document.getElementById("detailVendor").innerHTML=
+    html;
 
 }
 let totalVendor = 0;
@@ -1159,7 +1170,7 @@ function renderActivity(){
 
         <div class="activity-date">
 
-            ${formatTanggal(headerData.created_at)}
+           new Date(String(tanggal))
 
         </div>
 
