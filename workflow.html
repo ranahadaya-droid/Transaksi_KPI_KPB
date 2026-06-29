@@ -674,7 +674,6 @@ button:disabled{
 
 <script>
 
-/* =============================
 // ================================
 // SUPABASE
 // ================================
@@ -811,25 +810,12 @@ function renderHeader(){
     headerData.keperluan;
 
     document.getElementById("totalVendor").innerHTML =
-    "Rp "+
-    Number(
-       document.getElementById("totalVendor").innerHTML="Loading...";
-    )
-    .toLocaleString("id-ID");
+"Loading...";
 
     document.getElementById("biayaAdmin").innerHTML =
     "Rp "+
     Number(
         headerData.biaya_admin
-    )
-    .toLocaleString("id-ID");
-
-    document.getElementById("totalTransfer").innerHTML =
-    "Rp "+
-    (
-        Number(headerData.nominal_tagihan)
-        +
-        Number(headerData.biaya_admin)
     )
     .toLocaleString("id-ID");
 
@@ -1213,7 +1199,6 @@ function renderStatus(){
     html;
 
 }
-============================= */
 
     // ==========================================
 // ACTIVITY
