@@ -994,105 +994,73 @@ document.getElementById("totalTransfer").innerHTML =
 
 async function updateStatus(){
 
-    const radio =
-    document.querySelector(
-        'input[name="status"]:checked'
-    );
+    const radio=document.querySelector('input[name="status"]:checked');
 
     if(!radio){
 
-        alert("Silakan pilih status.");
+        alert("Pilih status.");
 
         return;
 
     }
 
-    try{
+    let result;
 
-        let updateData={};
+    if(type=="finance"){
 
-        let query =
-        sb
-        .from("pengajuan_header");
+        result =
+        await sb
+        .from("pengajuan_header")
+        .update({
 
-        if(type=="finance"){
+            status_finance:"SUDAH",
 
-            updateData={
+            tanggal_bayar:new Date().toISOString().substring(0,10)
 
-                status_finance:"SUDAH",
+        })
+        .eq("token_finance",token)
+        .select();
 
-                tanggal_bayar:
-                new Date()
-                .toISOString()
-                .substring(0,10)
+    }
 
-            };
+    else{
 
-            query =
-            query
-            .update(updateData)
-            .eq(
-                "token_finance",
-                token
-            )
-            .eq(
-                "status_finance",
-                "BELUM"
-            );
+        result =
+        await sb
+        .from("pengajuan_header")
+        .update({
 
-        }
+            status_tagihan:"SUDAH",
 
-        else{
+            tanggal_tagih:new Date().toISOString().substring(0,10)
 
-            updateData={
+        })
+        .eq("token_tagihan",token)
+        .select();
 
-                status_tagihan:"SUDAH",
+    }
 
-                tanggal_tagih:
-                new Date()
-                .toISOString()
-                .substring(0,10)
+    console.log(result);
 
-            };
+    if(result.error){
 
-            query =
-            query
-            .update(updateData)
-            .eq(
-                "token_tagihan",
-                token
-            )
-            .eq(
-                "status_tagihan",
-                "BELUM"
-            );
+        alert(result.error.message);
 
-        }
+        return;
 
-       const { data, error } =
-await query.select();
+    }
 
-console.log("UPDATE RESULT :", data);
-console.log("UPDATE ERROR :", error);
+    if(result.data.length==0){
 
-        if(error) throw error;
+        alert("Data tidak ditemukan.");
 
-        document
-        .getElementById("success")
-        .style.display="block";
+        return;
 
-        document
-        .getElementById("success")
-        .innerHTML=
-        "✅ Status berhasil diperbarui.";
+    }
 
-        document
-        .getElementById("btnUpdate")
-        .disabled=true;
+    alert("Status berhasil diperbarui.");
 
-        setTimeout(()=>{
-
-            location.reload();
+    location.reload();
 
         },1000);
 
