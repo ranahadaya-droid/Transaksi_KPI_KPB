@@ -394,11 +394,12 @@ button:disabled{
 
             <h1>PAYMENT WORKFLOW</h1>
 
-            <div id="statusBadge" class="status-badge">
+           <div
+id="statusBadge">
 
-                Loading...
+Payment Workflow
 
-            </div>
+</div>
 
         </div>
 
@@ -1211,6 +1212,140 @@ function renderStatus(){
 
 }
 ============================= */
+
+    // ==========================================
+// ACTIVITY
+// ==========================================
+
+function renderActivity(){
+
+    let html="";
+
+    html += `
+    <div class="activity">
+
+        <div class="activity-date">
+
+            ${formatTanggal(headerData.created_at)}
+
+        </div>
+
+        <div class="activity-title">
+
+            Pengajuan Dibuat
+
+        </div>
+
+        <div class="activity-desc">
+
+            Nomor Pengajuan
+
+            <b>${headerData.no_pengajuan}</b>
+
+        </div>
+
+    </div>
+    `;
+
+    if(headerData.status_finance=="SUDAH"){
+
+        html += `
+
+        <div class="activity">
+
+            <div class="activity-date">
+
+                ${formatTanggal(headerData.tanggal_bayar)}
+
+            </div>
+
+            <div class="activity-title">
+
+                Pembayaran
+
+            </div>
+
+            <div class="activity-desc">
+
+                Finance telah melakukan pembayaran.
+
+            </div>
+
+        </div>
+
+        `;
+
+    }
+
+    if(headerData.status_tagihan=="SUDAH"){
+
+        html += `
+
+        <div class="activity">
+
+            <div class="activity-date">
+
+                ${formatTanggal(headerData.tanggal_tagih)}
+
+            </div>
+
+            <div class="activity-title">
+
+                Penagihan
+
+            </div>
+
+            <div class="activity-desc">
+
+                Tagihan telah dikirim ke klien.
+
+            </div>
+
+        </div>
+
+        `;
+
+    }
+
+    document.getElementById("activityArea").innerHTML=html;
+
+}
+
+    // ==========================================
+// FORMAT TANGGAL
+// ==========================================
+
+function formatTanggal(tanggal){
+
+    if(!tanggal) return "-";
+
+    return new Date(tanggal)
+    .toLocaleDateString(
+        "id-ID",
+        {
+
+            day:"2-digit",
+
+            month:"long",
+
+            year:"numeric"
+
+        }
+
+    );
+
+}
+
+    // ==========================================
+// LOADING
+// ==========================================
+
+window.onload=()=>{
+
+    loadData();
+
+}
+
 
 </script>
 
