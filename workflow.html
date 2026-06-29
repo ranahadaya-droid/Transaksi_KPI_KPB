@@ -753,6 +753,10 @@ async function loadData(){
 
         headerData=data;
 
+        if(!headerData){
+    throw new Error("Data pengajuan tidak ditemukan.");
+}
+
         renderHeader();
 
         await loadDetail();
@@ -995,46 +999,33 @@ document.getElementById("totalTransfer").innerHTML =
 
 async function updateStatus(){
 
-    const radio=document.querySelector('input[name="status"]:checked');
+    const radio = document.querySelector('input[name="status"]:checked');
 
     if(!radio){
-
         alert("Pilih status.");
-
         return;
-
     }
 
     let result;
 
     if(type=="finance"){
 
-        result =
-        await sb
+        result = await sb
         .from("pengajuan_header")
         .update({
-
             status_finance:"SUDAH",
-
             tanggal_bayar:new Date().toISOString().substring(0,10)
-
         })
         .eq("token_finance",token)
         .select();
 
-    }
+    }else{
 
-    else{
-
-        result =
-        await sb
+        result = await sb
         .from("pengajuan_header")
         .update({
-
             status_tagihan:"SUDAH",
-
             tanggal_tagih:new Date().toISOString().substring(0,10)
-
         })
         .eq("token_tagihan",token)
         .select();
@@ -1044,38 +1035,21 @@ async function updateStatus(){
     console.log(result);
 
     if(result.error){
-
         alert(result.error.message);
-
         return;
-
     }
 
-    if(result.data.length==0){
-
+    if(result.data.length===0){
         alert("Data tidak ditemukan.");
-
         return;
-
     }
 
     alert("Status berhasil diperbarui.");
 
     location.reload();
 
-        },1000);
-
-    }
-
-    catch(err){
-
-        console.log(err);
-
-        alert(err.message);
-
-    }
-
 }
+   
 
 // ==========================================
 // STATUS
