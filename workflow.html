@@ -1098,18 +1098,19 @@ async function updateStatus(){
 
     }
 
-    const {
+    const result =
+await sb
+.from("pengajuan_header")
+.update(updateData)
+.eq("id",headerData.id)
+.select();
 
-        data,
+console.log("===== UPDATE RESULT =====");
+console.log(result);
+console.log("=========================");
 
-        error
-
-    } =
-    await sb
-    .from("pengajuan_header")
-    .update(updateData)
-    .eq("id",headerData.id)
-    .select();
+const data = result.data;
+const error = result.error;
 
     if(error){
 
