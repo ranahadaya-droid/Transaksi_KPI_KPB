@@ -1003,14 +1003,6 @@ for(const vendorInput of vendors){
         });
 
        
-        const nomorPengajuan =
-        await generateNomorPengajuan();
-
-        console.log("HASIL GENERATE =", nomorPengajuan);
-
-        nomorPengajuanGlobal =
-        nomorPengajuan;
-
         totalVendorGlobal =
         totalTagihan;
 
@@ -1055,60 +1047,44 @@ btn.innerText="Simpan Pengajuan";
         // INSERT HEADER
         // =====================
 
-        const { data:headerData, error:headerError } =
-        await sb
-        .from("pengajuan_header")
-        .insert([{
+       const { data: headerData, error: headerError } =
+await sb
+.from("pengajuan_header")
+.insert([{
 
-            no_pengajuan:
-            nomorPengajuan,
+    token_tagihan: tokenTagihan,
 
-            token_tagihan:
-        tokenTagihan,
+    token_finance: tokenFinance,
 
-        token_finance:
-        tokenFinance,
-            jenis:
-            document.getElementById("jenis").value,
+    jenis: document.getElementById("jenis").value,
 
-            klien:
-            document.getElementById("klien").value,
+    klien: document.getElementById("klien").value,
 
-            nama_pengaju:
-            document.getElementById("nama_pengaju").value,
+    nama_pengaju: document.getElementById("nama_pengaju").value,
 
-            keperluan:
-            document.getElementById("keperluan").value,
+    keperluan: document.getElementById("keperluan").value,
 
-            nomor_rekening:
-            document.getElementById("nomor_rekening").value,
+    nomor_rekening: document.getElementById("nomor_rekening").value,
 
-            nama_bank:
-            document.getElementById("nama_bank").value === "BANK LAIN"
-            ?
-            document.getElementById("bank_lain").value
-            :
-            document.getElementById("nama_bank").value,
+    nama_bank:
+        document.getElementById("nama_bank").value==="BANK LAIN"
+        ? document.getElementById("bank_lain").value
+        : document.getElementById("nama_bank").value,
 
-            atas_nama:
-            document.getElementById("atas_nama").value,
+    atas_nama: document.getElementById("atas_nama").value,
 
-            nominal_tagihan:
-            totalTagihan,
+    nominal_tagihan: totalTagihan,
 
-            nominal_kesepakatan:
-            Number(
-                document.getElementById("nominal_kesepakatan").value || 0
-            ),
+    nominal_kesepakatan:Number(document.getElementById("nominal_kesepakatan").value||0),
 
-            biaya_admin:
-            Number(
-                document.getElementById("biaya_admin").value || 0
-            )
+    biaya_admin:Number(document.getElementById("biaya_admin").value||0)
 
-        }])
-        .select()
-        .single();
+}])
+.select()
+.single();
+
+        nomorPengajuanGlobal =
+headerData.no_pengajuan;
 
         console.log("HEADER DATABASE =", headerData.no_pengajuan);
 
@@ -1138,7 +1114,8 @@ await sb
 
     header_id: headerId,
 
-    no_pengajuan: nomorPengajuan,
+   no_pengajuan:
+headerData.no_pengajuan
 
     aktivitas: "PENGAJUAN DIBUAT"
 
@@ -1212,16 +1189,16 @@ if(logError){
 
 }
 
-    console.log("===== DATA POPUP =====");
+console.log("===== DATA POPUP =====");
 console.log("Generate :", nomorPengajuan);
 console.log("Database :", headerData.no_pengajuan);
 console.log("Global :", nomorPengajuanGlobal);
 console.log("======================");
         
-       document
+document
 .getElementById("popupNo")
 .innerText =
-nomorPengajuan;
+headerData.no_pengajuan;
 
 document
 .getElementById("popupVendor")
