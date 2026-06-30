@@ -1373,6 +1373,16 @@ async function cekPIN(){
     .eq("jenis",jenis)
     .maybeSingle();
 
+   const jenis =
+type==="finance"
+?
+"finance"
+:
+"PIC";
+
+console.log("TYPE =", type);
+console.log("JENIS =", jenis);
+
     btn.disabled=false;
     btn.innerHTML="KONFIRMASI";
 
